@@ -214,12 +214,11 @@ const surds: CalcTool = {
       ok: true,
       output: {
         answer: surdText(a, b),
-        extras: [b === 1 ? `√${n} is a perfect square, so the answer is exact.` : `≈ ${fmt(Math.sqrt(n), 4)}`],
-        steps: [
-          {
-            title: `Square factors of ${n}`,
-            math: squares.length ? squares.map((s) => `${s}² = ${s * s}`).join(", ") : "none",
-          },
+        extras: [b === 1 ? `√${n} is a perfect square, so the answer is exact.` : `≈ ${fmt(Math.sqrt(n), 4)}`],          steps: [
+            { title: `Square factors of ${n}`,
+              math: squares.length ? squares.map((s) => `${s}² = ${s * s}`).join(", ") : "none",
+            },
+
           {
             title: "Take out the largest square factor",
             math: `√${n} = √(${a * a} × ${b}) = √${a * a} × √${b}`,
@@ -358,10 +357,11 @@ const standardForm: CalcTool = {
           ...(normalised.mantissa === mantissa && normalised.exponent === exponent
             ? []
             : [
-                {
-                  title: "The mantissa was not between 1 and 10, so adjust",
-                  math: `${fmt(normalised.mantissa)} × 10^${normalised.exponent}`,
-                },
+              {
+                title: "The mantissa was not between 1 and 10, so adjust",
+                math: `${fmt(normalised.mantissa)} × 10^${normalised.exponent}`,
+                detail: "",
+              },
               ]),
         ],
       },
@@ -420,6 +420,7 @@ const fdp: CalcTool = {
                   {
                     title: "Cancel the fraction into lowest terms",
                     math: `${top}/${bottom} = ${simplified} (divide both by ${common})`,
+                    detail: "",
                   },
                 ]
               : []),
@@ -431,39 +432,38 @@ const fdp: CalcTool = {
     }
 
     if (mode === "decimal") {
-      const value = Number(raw);
-      if (!Number.isFinite(value)) return fail("Enter a decimal number.");
-      const fraction = toFraction(value);
-      const percentage = value * 100;
+      const inputValue = Number(raw);
+      if (!Number.isFinite(inputValue)) return fail("Enter a decimal number.");
+      const fraction = toFraction(inputValue);
+      const percentage = inputValue * 100;
       return {
         ok: true,
         output: {
           answer: `${fraction} · ${fmt(percentage)}%`,
           steps: [
-            { title: "Write the decimal over its place value", math: `${fmt(value, 6)} = ${fmt(value, 6)}/1` },
-            { title: "Scale to the simplest fraction", math: `= ${fraction} (lowest terms)` },
-            { title: "Multiply by 100 for the percentage", math: `${fmt(value, 6)} × 100 = ${fmt(percentage)}%` },
+            { title: "Write the decimal over its place value", math: `${fmt(inputValue, 6)} = ${fmt(inputValue, 6)}/1` },
+            { title: "Scale to the simplest fraction", math: `= ${fraction} (lowest terms)`, detail: "" },
+            { title: "Multiply by 100 for the percentage", math: `${fmt(inputValue, 6)} × 100 = ${fmt(percentage)}%` },
           ],
         },
       };
     }
 
-    const percentage = Number(raw);
-    if (!Number.isFinite(percentage)) return fail("Enter a percentage as a number, e.g. 37.5.");
-    const decimal = percentage / 100;
+    const inputPercentage = Number(raw);
+    if (!Number.isFinite(inputPercentage)) return fail("Enter a percentage as a number, e.g. 37.5.");
+    const decimal = inputPercentage / 100;
     const fraction = toFraction(decimal);
     return {
       ok: true,
       output: {
-        answer: `${fmt(decimal, 6)} · ${fraction}`,
-        steps: [
-          { title: "Divide by 100 for the decimal", math: `${fmt(percentage)} ÷ 100 = ${fmt(decimal, 6)}` },
-          { title: "Write the decimal as a fraction", math: `= ${fraction} in lowest terms` },
-          {
-            title: "Check",
-            math: `${fraction} as a decimal is ${fmt(decimal, 6)} ✓`,
-          },
-        ],
+        answer: `${fmt(decimal, 6)} · ${fraction}`,          steps: [
+            { title: "Divide by 100 for the decimal", math: `${fmt(percentage)} ÷ 100 = ${fmt(decimal, 6)}` },
+            { title: "Write the decimal as a fraction", math: `= ${fraction} in lowest terms`, detail: "" },
+            {
+              title: "Check",
+              math: `${fraction} as a decimal is ${fmt(decimal, 6)} ✓`,
+            },
+          ],
       },
     };
   },
@@ -506,14 +506,15 @@ const ratio: CalcTool = {
     if (mode === "share") {
       const amount = num(values, "amount");
       if (!Number.isFinite(amount)) return fail("Enter the amount to share.");
-      const parts = str(values, "ratio").split(":").map((part) => Number(part.trim()));
-      if (parts.length < 2 || parts.some((part) => !Number.isFinite(part) || part < 0)) {
-        return fail("Write the ratio as numbers separated by colons, e.g. 3:5.");
-      }
-      const total = parts.reduce((sum, part) => sum + part, 0);
-      if (total === 0) return fail("The ratio parts add up to zero, so nothing can be shared.");
-      const unit = amount / total;
-      const shares = parts.map((part) => unit * part);
+    const ratioRaw = str(values, "ratio");
+    const parts = ratioRaw.split(":").map((part) => Number(part.trim()));
+    if (parts.length < 2 || parts.some((part) => !Number.isFinite(part) || part < 0)) {
+      return fail("Write the ratio as numbers separated by colons, e.g. 3:5.");
+    }
+    const total = parts.reduce((sum, part) => sum + part, 0);
+    if (total === 0) return fail("The ratio parts add up to zero, so nothing can be shared.");
+    const unit = amount / total;
+    const shares = parts.map((part) => unit * part);
       return {
         ok: true,
         output: {
@@ -733,13 +734,14 @@ const quadratic: CalcTool = {
       },
       {
         title: "Work out the discriminant b² − 4ac",
-        math: `Δ = (${fmt(b)})² − 4(${fmt(a)})(${fmt(c)}) = ${fmt(b * b)} − ${fmt(4 * a * c)} = ${fmt(discriminant)}`,
-        detail:
+        math: `Δ = (${fmt(b)})² − 4(${fmt(a)})(${fmt(c)}) = ${fmt(b * b)} − ${fmt(4 * a * c)} = ${fmt(discriminant)}`,              detail:
           discriminant > 0
             ? "Δ > 0, so there are two distinct real roots."
             : discriminant === 0
               ? "Δ = 0, so there is one repeated root."
               : "Δ < 0, so there are no real roots.",
+            math: "",
+            math: "",
       },
     ];
 
@@ -1231,22 +1233,21 @@ const sohcahtoa: CalcTool = {
 
     const oppositeKey: SideKey = "opposite";
     const adjacentKey: SideKey = "adjacent";
-    let ratioValue: number;
-    if (trig === "sin") {
-      const oppositeValue = sideA === oppositeKey ? valueA : valueB;
-      const hypotenuseValue = sideA === "hypotenuse" ? valueA : valueB;
-      if (oppositeValue > hypotenuseValue) return fail("The hypotenuse must be the longest side.");
-      ratioValue = oppositeValue / hypotenuseValue;
-    } else if (trig === "cos") {
-      const adjacentValue = sideA === adjacentKey ? valueA : valueB;
-      const hypotenuseValue = sideA === "hypotenuse" ? valueA : valueB;
-      if (adjacentValue > hypotenuseValue) return fail("The hypotenuse must be the longest side.");
-      ratioValue = adjacentValue / hypotenuseValue;
-    } else {
-      const oppositeValue = sideA === oppositeKey ? valueA : valueB;
-      const adjacentValue = sideA === adjacentKey ? valueA : valueB;
-      ratioValue = oppositeValue / adjacentValue;
-    }
+    let ratioValue: number;            if (trig === "sin") {
+              const oppositeValue = sideA === oppositeKey ? valueA : valueB;
+              const hypotenuseValue = sideA === "hypotenuse" ? valueA : valueB;
+              if (oppositeValue > hypotenuseValue) return fail("The hypotenuse must be the longest side.");
+              ratioValue = oppositeValue / hypotenuseValue;
+            } else if (trig === "cos") {
+              const adjacentValue = sideA === adjacentKey ? valueA : valueB;
+              const hypotenuseValue = sideA === "hypotenuse" ? valueA : valueB;
+              if (adjacentValue > hypotenuseValue) return fail("The hypotenuse must be the longest side.");
+              ratioValue = adjacentValue / hypotenuseValue;
+            } else {
+              const oppositeValue = sideA === oppositeKey ? valueA : valueB;
+              const adjacentValue = sideA === adjacentKey ? valueA : valueB;
+              ratioValue = oppositeValue / adjacentValue;
+            }
 
     const inverse = trig === "sin" ? Math.asin : trig === "cos" ? Math.acos : Math.atan;
     const angle = toDeg(inverse(ratioValue));

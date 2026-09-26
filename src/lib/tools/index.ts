@@ -1,8 +1,5 @@
 import { slugify } from "@/lib/subjects";
 
-import { BIOLOGY_TOOLS } from "./biology";
-import { CHEMISTRY_TOOLS } from "./chemistry";
-import { CS_TOOLS } from "./computer-science";
 import { MATHS_TOOLS } from "./maths";
 import { PHYSICS_TOOLS } from "./physics";
 import type { ToolDefinition } from "./types";
@@ -15,6 +12,9 @@ import type { ToolDefinition } from "./types";
  */
 const REGISTRY: Record<string, ToolDefinition> = {};
 
+// The biology, chemistry and computer-science modules are not implemented yet
+// and therefore do not contribute any live tool definitions.
+
 function register(subjectId: string, tools: ToolDefinition[]) {
   for (const tool of tools) {
     REGISTRY[`${subjectId}/${slugify(tool.name)}`] = tool;
@@ -23,9 +23,6 @@ function register(subjectId: string, tools: ToolDefinition[]) {
 
 register("maths", MATHS_TOOLS);
 register("physics", PHYSICS_TOOLS);
-register("chemistry", CHEMISTRY_TOOLS);
-register("biology", BIOLOGY_TOOLS);
-register("computer-science", CS_TOOLS);
 
 export function getDefinition(
   subjectId: string,
