@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://novatoolsv1.freebuff.app/sitemap.xml
