@@ -4,6 +4,7 @@ import { ChevronDown, LayoutDashboard, Menu } from "lucide-react";
 
 import { BrandMark } from "@/components/site/BrandMark";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
+import { ToolSearchDialog } from "@/components/site/ToolSearch";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,20 +25,34 @@ import { useAuth } from "@/hooks/use-auth";
 import { SUBJECTS } from "@/lib/subjects";
 import { cn } from "@/lib/utils";
 
-function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
+const navItemClass = (isActive: boolean) =>
+  cn(
+    "rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground",
+    isActive && "bg-accent text-foreground",
+  );
+
+function SubjectLink({
+  subject,
+  onNavigate,
+  active,
+}: {
+  subject: (typeof SUBJECTS)[number];
+  onNavigate?: () => void;
+  active: boolean;
+}) {
+  const Icon = subject.icon;
   return (
-    <NavLink
-      to={to}
-      end
-      className={({ isActive }) =>
-        cn(
-          "rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
-          isActive && "text-foreground",
-        )
-      }
+    <Link
+      to={subject.slug}
+      onClick={onNavigate}
+      className={cn(
+        "flex items-center gap-4 rounded-lg px-4 py-3 text-sm font-medium transition-colors duration-150 hover:bg-accent",
+        active && "bg-accent",
+      )}
     >
-      {children}
-    </NavLink>
+      <Icon className="size-4" style={{ color: subject.accent }} />
+      {subject.name}
+    </Link>
   );
 }
 
@@ -71,39 +86,45 @@ function AuthAction({ className }: { className?: string }) {
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
-  const onSubjectsRoute = SUBJECTS.some((s) => s.slug === pathname);
+  const onSubjectsRoute = SUBJECTS.some(
+    (subject) =>
+      pathname === subject.slug || pathname.startsWith(`${subject.slug}/`),
+  );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-        <Link to="/" className="flex items-center gap-2.5">
-          <BrandMark className="size-8 rounded-lg" />
-          <span className="flex flex-col leading-none">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+        <Link to="/" className="flex items-center gap-2">
+          <BrandMark className="size-8 text-primary" />
+          <span className="flex flex-col">
             <span className="text-sm font-bold tracking-tight">NovaTools</span>
-            <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+            <span className="text-label text-muted-foreground">
               IGCSE STEM
             </span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
-          <NavItem to="/">Home</NavItem>
+        <nav className="hidden items-center gap-2 md:flex">
+          <NavLink to="/" end className={({ isActive }) => navItemClass(isActive)}>
+            Home
+          </NavLink>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  "gap-1 px-3 text-sm font-medium text-muted-foreground hover:text-foreground",
-                  onSubjectsRoute && "text-foreground",
+                  "gap-2 px-4 text-sm font-medium text-muted-foreground hover:text-foreground",
+                  onSubjectsRoute && "bg-accent text-foreground",
                 )}
               >
                 Subjects
                 <ChevronDown className="size-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-60">
-              <DropdownMenuLabel className="text-xs uppercase tracking-wider text-muted-foreground">
+            <DropdownMenuContent align="start" className="w-64">
+              <DropdownMenuLabel className="text-label text-muted-foreground">
                 IGCSE subjects
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -111,22 +132,17 @@ export function SiteHeader() {
                 const Icon = subject.icon;
                 return (
                   <DropdownMenuItem key={subject.id} asChild>
-                    <Link to={subject.slug} className="cursor-pointer gap-3">
-                      <span
-                        className="flex size-7 items-center justify-center rounded-md"
-                        style={{
-                          color: subject.accent,
-                          backgroundColor: `color-mix(in oklab, ${subject.accent} 16%, transparent)`,
-                        }}
-                      >
-                        <Icon className="size-4" />
-                      </span>
-                      <span className="flex flex-col">
+                    <Link to={subject.slug} className="gap-4 px-4 py-3">
+                      <Icon
+                        className="size-4"
+                        style={{ color: subject.accent }}
+                      />
+                      <span className="flex flex-1 items-center justify-between gap-2">
                         <span className="text-sm font-medium">
                           {subject.name}
                         </span>
-                        <span className="text-xs text-muted-foreground">
-                          {subject.boards[0]}
+                        <span className="text-label text-muted-foreground">
+                          {subject.tools.length} tools
                         </span>
                       </span>
                     </Link>
@@ -137,7 +153,8 @@ export function SiteHeader() {
           </DropdownMenu>
         </nav>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
+          <ToolSearchDialog />
           <ThemeToggle />
           <AuthAction className="hidden sm:inline-flex" />
 
@@ -152,50 +169,33 @@ export function SiteHeader() {
                 <Menu className="size-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] overflow-y-auto">
+            <SheetContent side="right" className="w-80 overflow-y-auto">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
-                  <BrandMark className="size-7 rounded-md" />
+                  <BrandMark className="size-6 text-primary" />
                   NovaTools
                 </SheetTitle>
               </SheetHeader>
-              <div className="mt-2 flex flex-col gap-1 px-4 pb-6">
+              <div className="flex flex-col gap-2 px-4 pb-8">
                 <Link
                   to="/"
                   onClick={() => setOpen(false)}
-                  className="rounded-md px-3 py-2.5 text-sm font-medium hover:bg-accent"
+                  className="rounded-lg px-4 py-3 text-sm font-medium transition-colors duration-150 hover:bg-accent"
                 >
                   Home
                 </Link>
-                <p className="px-3 pt-3 pb-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                <p className="text-label mt-2 px-4 font-semibold tracking-wide text-muted-foreground uppercase">
                   Subjects
                 </p>
-                {SUBJECTS.map((subject) => {
-                  const Icon = subject.icon;
-                  return (
-                    <Link
-                      key={subject.id}
-                      to={subject.slug}
-                      onClick={() => setOpen(false)}
-                      className={cn(
-                        "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium hover:bg-accent",
-                        pathname === subject.slug && "bg-accent",
-                      )}
-                    >
-                      <span
-                        className="flex size-7 items-center justify-center rounded-md"
-                        style={{
-                          color: subject.accent,
-                          backgroundColor: `color-mix(in oklab, ${subject.accent} 16%, transparent)`,
-                        }}
-                      >
-                        <Icon className="size-4" />
-                      </span>
-                      {subject.name}
-                    </Link>
-                  );
-                })}
-                <div className="mt-3 px-1">
+                {SUBJECTS.map((subject) => (
+                  <SubjectLink
+                    key={subject.id}
+                    subject={subject}
+                    onNavigate={() => setOpen(false)}
+                    active={pathname.startsWith(subject.slug)}
+                  />
+                ))}
+                <div className="mt-4">
                   <AuthAction className="w-full" />
                 </div>
               </div>

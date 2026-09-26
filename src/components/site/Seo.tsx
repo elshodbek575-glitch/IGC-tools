@@ -20,6 +20,11 @@ export type SeoProps = {
   description: string;
   /** Route path, e.g. "/maths" */
   path: string;
+  /**
+   * Keep the page out of search results. Used for tool pages while they are
+   * still shells, so unfinished pages never reach Google.
+   */
+  noindex?: boolean;
 };
 
 /**
@@ -27,12 +32,17 @@ export type SeoProps = {
  * sync with the active route. The app is a client-rendered SPA, so this is how
  * per-subject metadata stays clean without a server.
  */
-export function Seo({ title, description, path }: SeoProps) {
+export function Seo({ title, description, path, noindex = false }: SeoProps) {
   useEffect(() => {
     const url = `${SITE_URL}${path}`;
     document.title = title;
 
     setMeta("name", "description", description);
+    setMeta(
+      "name",
+      "robots",
+      noindex ? "noindex, follow" : "index, follow",
+    );
     setMeta("property", "og:title", title);
     setMeta("property", "og:description", description);
     setMeta("property", "og:url", url);
@@ -48,7 +58,7 @@ export function Seo({ title, description, path }: SeoProps) {
       document.head.appendChild(canonical);
     }
     canonical.setAttribute("href", url);
-  }, [title, description, path]);
+  }, [title, description, path, noindex]);
 
   return null;
 }

@@ -42,76 +42,102 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* ------------------------------------------------------------------ */
+/* Typography — one sans-serif throughout, JetBrains Mono reserved for  */
+/* displayed formulas, numbers and step-by-step working.               */
+/* ------------------------------------------------------------------ */
+@theme {
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    monospace;
+  /* readable line-height for body copy, formulas and working-out */
+  --text-base--line-height: 1.6;
+  --text-sm--line-height: 1.6;
+  --text-lg--line-height: 1.6;
+  /* 13px small labels / eyebrows */
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.5;
+}
+
+@theme inline {
+  --color-success: var(--success);
+}
+
 /* CHANGE VALUES FOR THEME */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(0.99 0.004 260);
-  --foreground: oklch(0.16 0.02 265);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.16 0.02 265);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.16 0.02 265);
-  --primary: oklch(0.52 0.2 275);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.96 0.008 265);
-  --secondary-foreground: oklch(0.22 0.03 265);
-  --muted: oklch(0.96 0.008 265);
-  --muted-foreground: oklch(0.5 0.02 265);
-  --accent: oklch(0.95 0.012 265);
-  --accent-foreground: oklch(0.22 0.03 265);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.9 0.012 265);
-  --input: oklch(0.9 0.012 265);
-  --ring: oklch(0.52 0.2 275);
-  --grid-line: oklch(0.16 0.02 265 / 6%);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.5rem; /* --radius-lg = 8px (buttons/inputs), --radius-xl = 12px (cards) */
+  --background: #fafafa;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  --primary: #1c2036;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #1a1a1a;
+  --muted: #f4f4f5;
+  --muted-foreground: #6b7280;
+  --accent: #f4f4f5;
+  --accent-foreground: #1a1a1a;
+  --destructive: #dc2626;
+  --success: #16a34a;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #1c2036;
+  --grid-line: rgba(26, 26, 26, 0.045);
+  --chart-1: #1c2036;
+  --chart-2: #16a34a;
+  --chart-3: #6b7280;
+  --chart-4: #3b82f6;
+  --chart-5: #dc2626;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #1c2036;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #1a1a1a;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #1c2036;
 }
 
 .dark {
-  --background: oklch(0.17 0.022 265);
-  --foreground: oklch(0.97 0.008 260);
-  --card: oklch(0.21 0.026 265);
-  --card-foreground: oklch(0.97 0.008 260);
-  --popover: oklch(0.21 0.026 265);
-  --popover-foreground: oklch(0.97 0.008 260);
-  --primary: oklch(0.76 0.16 275);
-  --primary-foreground: oklch(0.17 0.022 265);
-  --secondary: oklch(0.26 0.024 265);
-  --secondary-foreground: oklch(0.97 0.008 260);
-  --muted: oklch(0.26 0.024 265);
-  --muted-foreground: oklch(0.72 0.02 262);
-  --accent: oklch(0.29 0.03 266);
-  --accent-foreground: oklch(0.97 0.008 260);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 16%);
-  --ring: oklch(0.62 0.15 275);
-  --grid-line: oklch(1 0 0 / 6%);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.21 0.026 265);
-  --sidebar-foreground: oklch(0.97 0.008 260);
-  --sidebar-primary: oklch(0.76 0.16 275);
-  --sidebar-primary-foreground: oklch(0.17 0.022 265);
-  --sidebar-accent: oklch(0.29 0.03 266);
-  --sidebar-accent-foreground: oklch(0.97 0.008 260);
-  --sidebar-border: oklch(1 0 0 / 12%);
-  --sidebar-ring: oklch(0.62 0.15 275);
+  --background: #0d0d12;
+  --foreground: #f0f0f0;
+  --card: #12121a;
+  --card-foreground: #f0f0f0;
+  --popover: #12121a;
+  --popover-foreground: #f0f0f0;
+  --primary: #9aa3e0;
+  --primary-foreground: #0d0d12;
+  --secondary: #1a1a24;
+  --secondary-foreground: #f0f0f0;
+  --muted: #1a1a24;
+  --muted-foreground: #9ca3af;
+  --accent: #1a1a24;
+  --accent-foreground: #f0f0f0;
+  --destructive: #f87171;
+  --success: #22c55e;
+  --border: #2a2a35;
+  --input: #2a2a35;
+  --ring: #9aa3e0;
+  --grid-line: rgba(240, 240, 240, 0.05);
+  --chart-1: #9aa3e0;
+  --chart-2: #22c55e;
+  --chart-3: #9ca3af;
+  --chart-4: #3b82f6;
+  --chart-5: #f87171;
+  --sidebar: #12121a;
+  --sidebar-foreground: #f0f0f0;
+  --sidebar-primary: #9aa3e0;
+  --sidebar-primary-foreground: #0d0d12;
+  --sidebar-accent: #1a1a24;
+  --sidebar-accent-foreground: #f0f0f0;
+  --sidebar-border: #2a2a35;
+  --sidebar-ring: #9aa3e0;
 }
 
 @layer base {
@@ -120,6 +146,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
   button:not([disabled]),
   [role="button"]:not([disabled]) {
@@ -128,36 +156,36 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* NovaTools subject accent system                                     */
-/* Each subject section sets --subject / --subject-soft / --subject-line */
+/* Per-subject accent hues — wayfinding only. Used for icon colour and  */
+/* thin border strips, never as a background fill.                     */
 /* ------------------------------------------------------------------ */
 .subject-maths {
-  --subject: oklch(0.55 0.2 272);
-  --subject-soft: oklch(0.55 0.2 272 / 13%);
-  --subject-line: oklch(0.55 0.2 272 / 32%);
+  --subject: #6366f1; /* indigo */
+  --subject-soft: rgba(99, 102, 241, 0.1);
+  --subject-line: rgba(99, 102, 241, 0.4);
 }
 .subject-physics {
-  --subject: oklch(0.68 0.13 218);
-  --subject-soft: oklch(0.68 0.13 218 / 14%);
-  --subject-line: oklch(0.68 0.13 218 / 34%);
+  --subject: #3b82f6; /* blue */
+  --subject-soft: rgba(59, 130, 246, 0.1);
+  --subject-line: rgba(59, 130, 246, 0.4);
 }
 .subject-chemistry {
-  --subject: oklch(0.72 0.16 62);
-  --subject-soft: oklch(0.72 0.16 62 / 15%);
-  --subject-line: oklch(0.72 0.16 62 / 36%);
+  --subject: #22c55e; /* green */
+  --subject-soft: rgba(34, 197, 94, 0.1);
+  --subject-line: rgba(34, 197, 94, 0.4);
 }
 .subject-biology {
-  --subject: oklch(0.66 0.16 155);
-  --subject-soft: oklch(0.66 0.16 155 / 14%);
-  --subject-line: oklch(0.66 0.16 155 / 34%);
+  --subject: #14b8a6; /* teal */
+  --subject-soft: rgba(20, 184, 166, 0.1);
+  --subject-line: rgba(20, 184, 166, 0.4);
 }
 .subject-computer-science {
-  --subject: oklch(0.62 0.2 305);
-  --subject-soft: oklch(0.62 0.2 305 / 14%);
-  --subject-line: oklch(0.62 0.2 305 / 34%);
+  --subject: #a855f7; /* purple */
+  --subject-soft: rgba(168, 85, 247, 0.1);
+  --subject-line: rgba(168, 85, 247, 0.4);
 }
 
-/* Blueprint / graph-paper background used across the marketing shell */
+/* Subtle graph-paper texture for hero bands */
 .bg-blueprint {
   background-image: linear-gradient(
       to right,
@@ -168,10 +196,13 @@
   background-size: 46px 46px;
 }
 
-.text-balance {
-  text-wrap: balance;
+/* Result / working panel: accent left border, faintly tinted fill */
+.working-panel {
+  border-left: 2px solid var(--subject, var(--primary));
+  background-color: color-mix(in srgb, var(--muted) 60%, transparent);
 }
 
-.text-pretty {
-  text-wrap: pretty;
+/* Thin accent strip for subject cards */
+.subject-strip {
+  border-top: 2px solid var(--subject, var(--border));
 }

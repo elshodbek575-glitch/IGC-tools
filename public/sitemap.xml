@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  NovaTools sitemap.
+
+  Individual tool pages use clean subject-first URLs, e.g.
+  /maths/surds-indices-simplifier or /physics/ohms-law-calculator.
+
+  Tool pages are added here as each tool goes live. While a tool is still a
+  shell it is served at its final URL but marked noindex, so unfinished pages
+  never reach search results.
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://novatoolsv1.freebuff.app/</loc>

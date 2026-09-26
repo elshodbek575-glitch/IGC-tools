@@ -25,11 +25,13 @@ export default function Dashboard() {
         title="Your dashboard · NovaTools"
         description="Your NovaTools IGCSE revision workspace."
         path="/dashboard"
+        noindex
       />
-      <header className="border-b border-border/70">
+
+      <header className="border-b border-border">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-          <Link to="/" className="flex items-center gap-2.5">
-            <BrandMark className="size-8 rounded-lg" />
+          <Link to="/" className="flex items-center gap-2">
+            <BrandMark className="size-8 text-primary" />
             <span className="text-sm font-bold tracking-tight">NovaTools</span>
           </Link>
           <Button
@@ -45,59 +47,52 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+      <main className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <p className="text-sm font-medium text-muted-foreground">
-            Your revision workspace
-          </p>
-          <h1 className="mt-1 text-3xl font-bold tracking-tight">
+          <h1 className="text-3xl font-bold tracking-tight">
             Welcome back{user?.name ? `, ${user.name}` : ""}
           </h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
+          <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
             Pick a subject to explore its syllabus topics and the tools being
-            built for it. Tools will save your progress here as each subject goes
-            live.
+            built for it. Progress will save here as each subject goes live.
           </p>
         </motion.div>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {SUBJECTS.map((subject, index) => {
             const Icon = subject.icon;
             return (
               <motion.div
                 key={subject.id}
-                initial={{ opacity: 0, y: 18 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: index * 0.05 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
                 className={cn("h-full", subject.themeClass)}
               >
                 <Link to={subject.slug} className="group block h-full">
-                  <Card className="h-full border-border/70 shadow-none transition-colors group-hover:border-[var(--subject-line)]">
-                    <CardContent className="flex h-full flex-col p-5">
-                      <span
-                        className="flex size-10 items-center justify-center rounded-xl"
-                        style={{
-                          color: subject.accent,
-                          backgroundColor: `color-mix(in oklab, ${subject.accent} 16%, transparent)`,
-                        }}
-                      >
-                        <Icon className="size-5" />
-                      </span>
-                      <h2 className="mt-4 text-base font-semibold tracking-tight">
+                  <Card className="subject-strip h-full">
+                    <CardContent className="flex h-full flex-col gap-4 px-6">
+                      <Icon
+                        className="size-5"
+                        style={{ color: subject.accent }}
+                      />
+                      <h2 className="text-xl font-semibold tracking-tight">
                         {subject.name}
                       </h2>
-                      <p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">
+                      <p className="flex-1 text-sm text-muted-foreground">
                         {subject.tagline}
                       </p>
-                      <span className="mt-4 flex items-center gap-1 border-t border-border/70 pt-4 text-xs font-medium text-[var(--subject)]">
-                        {subject.status === "in-progress"
-                          ? "Building now"
-                          : "Planned"}
-                        <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+                      <span className="flex items-center gap-2 border-t border-border pt-4 text-sm font-medium">
+                        <span style={{ color: subject.accent }}>
+                          {subject.status === "in-progress"
+                            ? "Building now"
+                            : "Planned"}
+                        </span>
+                        <ArrowRight className="size-4 text-muted-foreground transition-transform duration-150 group-hover:translate-x-1" />
                       </span>
                     </CardContent>
                   </Card>

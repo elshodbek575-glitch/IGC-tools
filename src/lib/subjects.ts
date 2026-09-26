@@ -493,3 +493,65 @@ export const SUBJECT_MAP: Record<string, Subject> = Object.fromEntries(
 export function getSubject(id: string): Subject | undefined {
   return SUBJECT_MAP[id];
 }
+
+/** Turn a tool name into its URL slug, e.g. "Ohm's Law Calculator" -> "ohms-law-calculator". */
+export function slugify(input: string): string {
+  return input
+    .toLowerCase()
+    .replace(/['\u2019]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export type ToolRef = {
+  subject: Subject;
+  tool: PlannedTool;
+  slug: string;
+  /** Subject-first, tool-second URL, e.g. /physics/ohms-law-calculator */
+  path: string;
+};
+
+/** Flat index of every planned tool across all subjects, used by search and routing. */
+export const ALL_TOOLS: ToolRef[] = SUBJECTS.flatMap((subject) =>
+  subject.tools.map((tool) => {
+    const slug = slugify(tool.name);
+    return { subject, tool, slug, path: `${subject.slug}/${slug}` };
+  }),
+);
+
+export function findTool(
+  subjectId: string,
+  toolSlug: string,
+): ToolRef | undefined {
+  return ALL_TOOLS.find(
+    (ref) => ref.subject.id === subjectId && ref.slug === toolSlug,
+  );
+}
+
+/**
+ * Tools flip to "live" one at a time as they are built. While a tool is still a
+ * shell it is served (so the URL structure and shell stay real) but kept out of
+ * the sitemap and marked noindex so empty pages never reach search results.
+ */
+const LIVE_TOOL_PATHS: string[] = [];
+
+export function isToolLive(ref: ToolRef): boolean {
+  return LIVE_TOOL_PATHS.includes(ref.path);
+}
+
+export function searchTools(query: string, limit = 8): ToolRef[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  const matches = ALL_TOOLS.filter((ref) => {
+    const haystack = `${ref.tool.name} ${ref.tool.note} ${ref.subject.name}`.toLowerCase();
+    return haystack.includes(q);
+  });
+  // Name matches rank above description-only matches.
+  return matches
+    .sort((a, b) => {
+      const aName = a.tool.name.toLowerCase().includes(q) ? 0 : 1;
+      const bName = b.tool.name.toLowerCase().includes(q) ? 0 : 1;
+      return aName - bName;
+    })
+    .slice(0, limit);
+}

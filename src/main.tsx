@@ -13,6 +13,7 @@ import "./index.css";
 // Lazy load route components for better code splitting
 const Home = lazy(() => import("./pages/Home.tsx"));
 const SubjectPage = lazy(() => import("./pages/SubjectPage.tsx"));
+const ToolPage = lazy(() => import("./pages/ToolPage.tsx"));
 const AuthPage = lazy(() => import("./pages/Auth.tsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
@@ -147,6 +148,11 @@ createRoot(document.getElementById("root")!).render(
                 <Route
                   path="/computer-science"
                   element={<SubjectPage subjectId="computer-science" />}
+                />
+                {/* Subject-first, tool-second: /maths/surds-indices-simplifier */}
+                <Route
+                  path="/:subjectId/:toolSlug"
+                  element={<ToolPage />}
                 />
                 <Route
                   path="/auth"
