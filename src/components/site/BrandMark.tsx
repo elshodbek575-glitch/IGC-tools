@@ -1,0 +1,38 @@
+/**
+ * NovaTools brand mark — an original SVG "nova" spark inside an orbit,
+ * drawn on a rounded gradient tile. Not sourced from any external asset.
+ */
+export function BrandMark({ className = "size-8" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      className={className}
+      role="img"
+      aria-label="NovaTools"
+    >
+      <defs>
+        <linearGradient id="nova-tile" x1="0" y1="0" x2="32" y2="32">
+          <stop offset="0%" stopColor="var(--subject, #6366f1)" />
+          <stop offset="100%" stopColor="#22d3ee" />
+        </linearGradient>
+      </defs>
+      <rect width="32" height="32" rx="9" fill="url(#nova-tile)" />
+      <ellipse
+        cx="16"
+        cy="16"
+        rx="10.5"
+        ry="4.6"
+        fill="none"
+        stroke="#ffffff"
+        strokeOpacity="0.55"
+        strokeWidth="1.3"
+        transform="rotate(-28 16 16)"
+      />
+      <path
+        d="M16 6.5c.9 4.6 2.1 5.8 6.7 6.7-4.6.9-5.8 2.1-6.7 6.7-.9-4.6-2.1-5.8-6.7-6.7 4.6-.9 5.8-2.1 6.7-6.7Z"
+        fill="#ffffff"
+      />
+      <circle cx="24.2" cy="10.4" r="1.5" fill="#ffffff" />
+    </svg>
+  );
+}
