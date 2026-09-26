@@ -1,17 +1,21 @@
 import { Link, useParams } from "react-router";
 
+import { Seo } from "@/components/site/Seo";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { ToolShell } from "@/components/site/ToolShell";
+import { CalcRunner } from "@/components/tool/CalcRunner";
+import { DiagramRunner } from "@/components/tool/DiagramRunner";
+import { ExplorerRunner } from "@/components/tool/ExplorerRunner";
 import { Button } from "@/components/ui/button";
-import { Seo } from "@/components/site/Seo";
-import { findTool, isToolLive } from "@/lib/subjects";
+import { getDefinition } from "@/lib/tools";
+import { findTool } from "@/lib/subjects";
 
 /**
  * Every tool lives at a subject-first URL: /physics/ohms-law-calculator
  *
- * The page supplies metadata and delegates layout to `ToolShell`, so each tool
- * only has to plug in its own inputs and result.
+ * The page resolves the tool, supplies its metadata and hands layout to
+ * `ToolShell`, which delegates the working area to the right runner.
  */
 export default function ToolPage() {
   const { subjectId, toolSlug } = useParams<{
@@ -19,8 +23,8 @@ export default function ToolPage() {
     toolSlug: string;
   }>();
 
-  const ref =
-    subjectId && toolSlug ? findTool(subjectId, toolSlug) : undefined;
+  const ref = subjectId && toolSlug ? findTool(subjectId, toolSlug) : undefined;
+  const definition = ref ? getDefinition(ref.subject.id, ref.slug) : undefined;
 
   if (!ref) {
     return (
@@ -47,17 +51,23 @@ export default function ToolPage() {
     );
   }
 
-  const live = isToolLive(ref);
-
   return (
     <>
       <Seo
         title={`${ref.tool.name} · ${ref.subject.shortName} IGCSE · NovaTools`}
-        description={`${ref.tool.note} Free IGCSE ${ref.subject.shortName} revision tool with full step-by-step working.`}
+        description={`${ref.tool.note} Free IGCSE ${ref.subject.shortName} revision tool with the full step-by-step working shown.`}
         path={ref.path}
-        noindex={!live}
+        noindex={!definition}
       />
-      <ToolShell subject={ref.subject} toolRef={ref} />
+      <ToolShell
+        subject={ref.subject}
+        toolRef={ref}
+        formula={definition?.kind === "calc" ? definition.formula : undefined}
+      >
+        {definition?.kind === "calc" && <CalcRunner def={definition} />}
+        {definition?.kind === "explorer" && <ExplorerRunner def={definition} />}
+        {definition?.kind === "diagram" && <DiagramRunner def={definition} />}
+      </ToolShell>
     </>
   );
 }

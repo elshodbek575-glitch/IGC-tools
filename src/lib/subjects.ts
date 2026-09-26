@@ -528,17 +528,6 @@ export function findTool(
   );
 }
 
-/**
- * Tools flip to "live" one at a time as they are built. While a tool is still a
- * shell it is served (so the URL structure and shell stay real) but kept out of
- * the sitemap and marked noindex so empty pages never reach search results.
- */
-const LIVE_TOOL_PATHS: string[] = [];
-
-export function isToolLive(ref: ToolRef): boolean {
-  return LIVE_TOOL_PATHS.includes(ref.path);
-}
-
 export function searchTools(query: string, limit = 8): ToolRef[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
