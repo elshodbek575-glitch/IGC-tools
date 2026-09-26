@@ -451,17 +451,17 @@ const fdp: CalcTool = {
 
     const inputPercentage = Number(raw);
     if (!Number.isFinite(inputPercentage)) return fail("Enter a percentage as a number, e.g. 37.5.");
-    const decimal = inputPercentage / 100;
-    const fraction = toFraction(decimal);
+    const pctDecimal = inputPercentage / 100;
+    const fraction = toFraction(pctDecimal);
     return {
       ok: true,
       output: {
-        answer: `${fmt(decimal, 6)} · ${fraction}`,          steps: [
-            { title: "Divide by 100 for the decimal", math: `${fmt(percentage)} ÷ 100 = ${fmt(decimal, 6)}` },
+        answer: `${fmt(pctDecimal, 6)} · ${fraction}`,          steps: [
+            { title: "Divide by 100 for the decimal", math: `${fmt(inputPercentage)} ÷ 100 = ${fmt(pctDecimal, 6)}` },
             { title: "Write the decimal as a fraction", math: `= ${fraction} in lowest terms`, detail: "" },
             {
               title: "Check",
-              math: `${fraction} as a decimal is ${fmt(decimal, 6)} ✓`,
+              math: `${fraction} as a decimal is ${fmt(pctDecimal, 6)} ✓`,
             },
           ],
       },
@@ -734,14 +734,13 @@ const quadratic: CalcTool = {
       },
       {
         title: "Work out the discriminant b² − 4ac",
-        math: `Δ = (${fmt(b)})² − 4(${fmt(a)})(${fmt(c)}) = ${fmt(b * b)} − ${fmt(4 * a * c)} = ${fmt(discriminant)}`,              detail:
+        math: `Δ = (${fmt(b)})² − 4(${fmt(a)})(${fmt(c)}) = ${fmt(b * b)} − ${fmt(4 * a * c)} = ${fmt(discriminant)}`,
+        detail:
           discriminant > 0
             ? "Δ > 0, so there are two distinct real roots."
             : discriminant === 0
               ? "Δ = 0, so there is one repeated root."
               : "Δ < 0, so there are no real roots.",
-            math: "",
-            math: "",
       },
     ];
 
@@ -768,6 +767,7 @@ const quadratic: CalcTool = {
     } else {
       steps.push({
         title: "Method 1 — factorising",
+        math: "",
         detail:
           "The roots are not whole numbers or simple fractions, so this quadratic does not factorise over the integers. Use completing the square or the formula.",
       });
