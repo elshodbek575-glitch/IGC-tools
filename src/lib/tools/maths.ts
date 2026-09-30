@@ -11,7 +11,7 @@ import {
   str,
   toFraction,
 } from "./helpers";
-import type { CalcTool, ExplorerTool, SolveOutcome, ToolDefinition, Values } from "./types";
+import type { CalcTool, ExplorerTool, SolveOutcome, ToolDefinition, Values, WorkStep } from "./types";
 import {
   buildPaper,
   clampCount,
@@ -1676,7 +1676,6 @@ const vectors: CalcTool = {
             math: `${subtract ? "a − b" : "a + b"} = (${fmt(ax)} ${subtract ? "−" : "+"} ${fmt(bx)}, ${fmt(ay)} ${subtract ? "−" : "+"} ${fmt(by)})`,
           },
           { title: "Result", math: `= ${plain(rx, ry)}` },
-          ...(vector ? [] : []),
         ],
       },
     };
@@ -2219,7 +2218,7 @@ const graph: CalcTool = {
         .map((point) => [fmt(point.x, 3), fmt(point.y, 3)]),
     };
 
-    const steps = [
+    const steps: WorkStep[] = [
       {
         title: "Write the equation of the graph",
         math:
