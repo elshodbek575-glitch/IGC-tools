@@ -30,15 +30,29 @@ const PRINCIPLES = [
   { icon: CircuitBoard, titleKey: "home.p3Title", bodyKey: "home.p3Body" },
 ];
 
+/**
+ * The worked example shown in the hero is content, not chrome, so each string
+ * is keyed with its English source as the fallback — translations live in
+ * `subject-copy.ts` and a missing translation simply keeps the English text.
+ */
 const WORKING_STEPS = [
-  { step: "1", text: "Factorise: (x − 2)(x − 3) = 0" },
-  { step: "2", text: "Set each bracket equal to zero" },
-  { step: "3", text: "x = 2 or x = 3" },
+  {
+    step: "1",
+    key: "home.exampleStep1",
+    fallback: "Factorise: (x − 2)(x − 3) = 0",
+  },
+  {
+    step: "2",
+    key: "home.exampleStep2",
+    fallback: "Set each bracket equal to zero",
+  },
+  { step: "3", key: "home.exampleAnswer", fallback: "x = 2 or x = 3" },
 ];
 
 /** Static preview of the shared tool shell: input card beside a working panel. */
 function ShellPreview() {
-  const { t } = useI18n();
+  const { t, tOr } = useI18n();
+  const answer = tOr("home.exampleAnswer", "x = 2 or x = 3");
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -53,7 +67,9 @@ function ShellPreview() {
           </p>
         </div>
         <CardContent className="px-6 py-6">
-          <Label htmlFor="hero-equation">Quadratic equation</Label>
+          <Label htmlFor="hero-equation">
+            {tOr("home.exampleTitle", "Quadratic equation")}
+          </Label>
           <div
             id="hero-equation"
             className="mt-2 flex h-10 items-center rounded-lg border border-border bg-transparent px-4 font-mono text-sm"
@@ -68,7 +84,7 @@ function ShellPreview() {
           <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
             {t("panels.resultWorking")}
           </p>
-          <CopyButton value="x = 2 or x = 3" />
+          <CopyButton value={answer} />
         </div>
         <div className="working-panel px-6 py-6">
           <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
@@ -80,7 +96,7 @@ function ShellPreview() {
             transition={{ duration: 0.3, delay: 0.25 }}
             className="mt-2 font-mono text-2xl font-semibold"
           >
-            x = 2 or x = 3
+            {answer}
           </motion.p>
 
           <ol className="mt-6 space-y-4 font-mono text-sm">
@@ -95,7 +111,7 @@ function ShellPreview() {
                 <span className="text-label w-6 shrink-0 text-primary">
                   {item.step}
                 </span>
-                <span>{item.text}</span>
+                <span>{tOr(item.key, item.fallback)}</span>
               </motion.li>
             ))}
           </ol>
@@ -106,7 +122,7 @@ function ShellPreview() {
 }
 
 export default function Home() {
-  const { t, subjectName } = useI18n();
+  const { t, tOr, subjectName } = useI18n();
   return (
     <div className="flex min-h-screen flex-col">
       <Seo
@@ -229,7 +245,7 @@ export default function Home() {
                           {subjectName(subject.id, subject.name)}
                         </h3>
                         <p className="flex-1 text-sm text-muted-foreground">
-                          {subject.tagline}
+                          {tOr(`subject.${subject.id}.tagline`, subject.tagline)}
                         </p>
                         <span
                           className={cn(

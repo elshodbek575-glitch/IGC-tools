@@ -30,7 +30,7 @@ function SubjectDot({ accent }: { accent: string }) {
  * type and links straight to each tool's subject-first URL.
  */
 export function ToolSearchBar({ className }: { className?: string }) {
-  const { t } = useI18n();
+  const { t, tOr, subjectName } = useI18n();
   const [query, setQuery] = useState("");
   const results = useMemo(() => searchTools(query, 6), [query]);
   const hasQuery = query.trim().length > 0;
@@ -69,9 +69,11 @@ export function ToolSearchBar({ className }: { className?: string }) {
                   className="flex items-center gap-4 px-4 py-3 transition-colors duration-150 hover:bg-accent"
                 >
                   <SubjectDot accent={ref.subject.accent} />
-                  <span className="flex-1 text-sm">{ref.tool.name}</span>
+                  <span className="flex-1 text-sm">
+                    {tOr(`tool.${ref.subject.id}.${ref.slug}.name`, ref.tool.name)}
+                  </span>
                   <span className="text-label text-muted-foreground">
-                    {ref.subject.shortName}
+                    {subjectName(ref.subject.id, ref.subject.shortName)}
                   </span>
                 </Link>
               </li>
@@ -90,6 +92,7 @@ function CommandToolItem({
   ref: ToolRef;
   onSelect: () => void;
 }) {
+  const { tOr, subjectName } = useI18n();
   return (
     <CommandItem
       onSelect={onSelect}
@@ -97,13 +100,21 @@ function CommandToolItem({
          value carries the subject too — it stays unique for selection while
          remaining searchable by name. */
       value={`${ref.tool.name} ${ref.subject.shortName}`}
-      keywords={[ref.subject.name, ref.tool.note]}
+      /* Keywords stay searchable in both English and the active locale. */
+      keywords={[
+        ref.subject.name,
+        ref.tool.note,
+        tOr(`tool.${ref.subject.id}.${ref.slug}.name`, ref.tool.name),
+        tOr(`tool.${ref.subject.id}.${ref.slug}.note`, ref.tool.note),
+      ]}
       className="gap-4 px-2 py-4"
     >
       <SubjectDot accent={ref.subject.accent} />
-      <span className="flex-1 text-sm">{ref.tool.name}</span>
+      <span className="flex-1 text-sm">
+        {tOr(`tool.${ref.subject.id}.${ref.slug}.name`, ref.tool.name)}
+      </span>
       <span className="text-label text-muted-foreground">
-        {ref.subject.shortName}
+        {subjectName(ref.subject.id, ref.subject.shortName)}
       </span>
     </CommandItem>
   );

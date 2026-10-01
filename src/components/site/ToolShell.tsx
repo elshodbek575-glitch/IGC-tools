@@ -32,9 +32,13 @@ export function ToolShell({
   formula,
   children,
 }: ToolShellProps) {
-  const { tool } = toolRef;
-  const { t, subjectName } = useI18n();
+  const { tool, slug } = toolRef;
+  const { t, tOr, subjectName } = useI18n();
   const Icon = subject.icon;
+  // Tool catalogue copy is translated when a locale provides it, otherwise the
+  // English source in `subjects.ts` is used as-is.
+  const toolName = tOr(`tool.${subject.id}.${slug}.name`, tool.name);
+  const toolNote = tOr(`tool.${subject.id}.${slug}.note`, tool.note);
 
   return (
     <div className={cn("flex min-h-screen flex-col", subject.themeClass)}>
@@ -61,7 +65,7 @@ export function ToolShell({
               </Link>
             </li>
             <ChevronRight className="size-4" />
-            <li className="text-foreground">{tool.name}</li>
+            <li className="text-foreground">{toolName}</li>
           </ol>
         </nav>
 
@@ -69,14 +73,14 @@ export function ToolShell({
           <div className="flex flex-wrap items-center gap-4">
             <Icon className="size-6" style={{ color: subject.accent }} />
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              {tool.name}
+              {toolName}
             </h1>
             <Badge variant="outline" className="text-muted-foreground">
               {children ? t("common.live") : t("common.inDevelopment")}
             </Badge>
           </div>
           <p className="mt-4 max-w-2xl text-base text-muted-foreground">
-            {tool.note}
+            {toolNote}
           </p>
         </header>
 

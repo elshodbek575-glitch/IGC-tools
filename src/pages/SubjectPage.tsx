@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 const HOVER = "transition-colors duration-150";
 
 export default function SubjectPage({ subjectId }: { subjectId: string }) {
-  const { t, subjectName } = useI18n();
+  const { t, tOr, subjectName } = useI18n();
   const subject = getSubject(subjectId);
 
   if (!subject) {
@@ -46,12 +46,14 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
 
   const Icon = subject.icon;
   const isBuilding = subject.status === "in-progress";
+  const tagline = tOr(`subject.${subject.id}.tagline`, subject.tagline);
+  const blurb = tOr(`subject.${subject.id}.blurb`, subject.blurb);
 
   return (
     <div className={cn("flex min-h-screen flex-col", subject.themeClass)}>
       <Seo
         title={`${subjectName(subject.id, subject.name)} IGCSE · NovaTools`}
-        description={`${subject.tagline} Built on the ${subject.boards.join(
+        description={`${tagline} Built on the ${subject.boards.join(
           " and ",
         )} specifications, with ${subject.tools.length} tools that show their working.`}
         path={subject.slug}
@@ -104,7 +106,7 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
               </h1>
 
               <p className="mt-4 max-w-xl text-base text-muted-foreground">
-                {subject.blurb}
+                {blurb}
               </p>
 
               <div className="mt-6 flex flex-wrap gap-2">
@@ -264,7 +266,9 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
           </motion.div>
 
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {subject.tools.map((tool, index) => (
+            {subject.tools.map((tool, index) => {
+              const slug = slugify(tool.name);
+              return (
               <motion.div
                 key={tool.name}
                 initial={{ opacity: 0, y: 16 }}
@@ -274,7 +278,7 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
                 className="h-full"
               >
                 <Link
-                  to={`${subject.slug}/${slugify(tool.name)}`}
+                  to={`${subject.slug}/${slug}`}
                   className="group block h-full"
                 >
                   <Card className="h-full">
@@ -293,10 +297,10 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
                         </Badge>
                       </div>
                       <h3 className="text-xl font-semibold tracking-tight">
-                        {tool.name}
+                        {tOr(`tool.${subject.id}.${slug}.name`, tool.name)}
                       </h3>
                       <p className="flex-1 text-sm text-muted-foreground">
-                        {tool.note}
+                        {tOr(`tool.${subject.id}.${slug}.note`, tool.note)}
                       </p>
                       <span
                         className={cn(
@@ -312,7 +316,8 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
                   </Card>
                 </Link>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

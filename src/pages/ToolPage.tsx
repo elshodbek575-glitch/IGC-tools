@@ -19,7 +19,7 @@ import { findTool } from "@/lib/subjects";
  * `ToolShell`, which delegates the working area to the right runner.
  */
 export default function ToolPage() {
-  const { t } = useI18n();
+  const { t, tOr } = useI18n();
   const { subjectId, toolSlug } = useParams<{
     subjectId: string;
     toolSlug: string;
@@ -54,11 +54,18 @@ export default function ToolPage() {
     );
   }
 
+  const toolName = tOr(`tool.${ref.subject.id}.${ref.slug}.name`, ref.tool.name);
+  const toolNote = tOr(`tool.${ref.subject.id}.${ref.slug}.note`, ref.tool.note);
+  const subjectShort = tOr(
+    `subject.${ref.subject.id}.short`,
+    ref.subject.shortName,
+  );
+
   return (
     <>
       <Seo
-        title={`${ref.tool.name} · ${ref.subject.shortName} IGCSE · NovaTools`}
-        description={`${ref.tool.note} Free IGCSE ${ref.subject.shortName} revision tool with the full step-by-step working shown.`}
+        title={`${toolName} · ${subjectShort} IGCSE · NovaTools`}
+        description={`${toolNote} Free IGCSE ${subjectShort} revision tool with the full step-by-step working shown.`}
         path={ref.path}
         noindex={!definition}
       />

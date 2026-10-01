@@ -12,7 +12,7 @@ import { SUBJECTS } from "@/lib/subjects";
 import { cn } from "@/lib/utils";
 
 export default function Dashboard() {
-  const { t, subjectName } = useI18n();
+  const { t, tOr, subjectName } = useI18n();
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
@@ -86,7 +86,7 @@ export default function Dashboard() {
                         {subjectName(subject.id, subject.name)}
                       </h2>
                       <p className="flex-1 text-sm text-muted-foreground">
-                        {subject.tagline}
+                        {tOr(`subject.${subject.id}.tagline`, subject.tagline)}
                       </p>
                       <span className="flex items-center gap-2 border-t border-border pt-4 text-sm font-medium">
                         <span style={{ color: subject.accent }}>

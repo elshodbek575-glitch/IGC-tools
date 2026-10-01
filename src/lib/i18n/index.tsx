@@ -46,6 +46,13 @@ type I18nContextValue = {
   setLocale: (code: string) => void;
   /** Translate a key, optionally interpolating `{placeholders}`. */
   t: (key: string, vars?: TVars) => string;
+  /**
+   * Translate a key that may not be in any dictionary yet, using the supplied
+   * English source string as the fallback. Used for content that lives in the
+   * data files (tool names and notes, subject taglines, syllabus topics) so
+   * translations can be added without duplicating English into `en.ts`.
+   */
+  tOr: (key: string, fallback: string) => string;
   /** Localised subject name, falling back to the supplied English name. */
   subjectName: (id: string, fallback: string) => string;
 };
@@ -65,6 +72,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       const template = dict[key] ?? en[key] ?? key;
       return interpolate(template, vars);
     },
+    [dict],
+  );
+
+  const tOr = useCallback(
+    (key: string, fallback: string) => dict[key] ?? fallback,
     [dict],
   );
 
@@ -97,9 +109,10 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       languages: LANGUAGES,
       setLocale,
       t,
+      tOr,
       subjectName,
     }),
-    [locale, setLocale, t, subjectName],
+    [locale, setLocale, t, tOr, subjectName],
   );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
