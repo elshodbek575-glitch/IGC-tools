@@ -174,6 +174,8 @@ export const en: Dict = {
   "diagram.settled":
     "Settled correctly: {solved} of {total} · attempts {attempts}",
   "diagram.labelledParts": "Labelled parts",
+  "diagram.numbersMatch":
+    "The numbers on the diagram match the numbered parts listed here.",
   "diagram.diagram": "Diagram",
   "diagram.hintQuiz":
     "Find the numbered part on the diagram, then choose its name.",

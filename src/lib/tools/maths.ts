@@ -258,111 +258,63 @@ function toStandardForm(value: number): { mantissa: number; exponent: number } {
 const standardForm: CalcTool = {
   kind: "calc",
   name: "Standard Form Converter",
-  summary: "Convert numbers to and from standard form, and multiply or divide in it.",
+  summary: "Type any number and see it written in standard form, with the working.",
   formula: "A × 10ⁿ where 1 ≤ A < 10",
   fields: [
     {
-      id: "mode",
-      label: "Mode",
-      type: "select",
-      defaultValue: "convert",
-      options: [
-        { value: "convert", label: "Convert a number to standard form" },
-        { value: "multiply", label: "Multiply two numbers in standard form" },
-        { value: "divide", label: "Divide two numbers in standard form" },
-      ],
-    },
-    {
       id: "value",
       label: "Number to convert",
-      type: "number",
+      type: "text",
       defaultValue: "0.00042",
-      hint: "Ordinary numbers or long decimals both work.",
+      hint: "Type an ordinary number, e.g. 0.00042 or 56000.",
     },
-    { id: "a", label: "First mantissa A", type: "number", defaultValue: "3.2" },
-    { id: "n", label: "First power n", type: "number", defaultValue: "5" },
-    { id: "b", label: "Second mantissa B", type: "number", defaultValue: "4" },
-    { id: "m", label: "Second power m", type: "number", defaultValue: "-2" },
   ],
   solve(values: Values): SolveOutcome {
-    const mode = str(values, "mode");
-
-    if (mode === "convert") {
-      const value = num(values, "value");
-      if (!Number.isFinite(value)) return fail("Enter a number to convert.");
-      if (value === 0) {
-        return {
-          ok: true,
-          output: { answer: "0 = 0 × 10⁰", steps: [{ title: "Zero stays zero in standard form" }] },
-        };
-      }
-      const { mantissa, exponent } = toStandardForm(value);
-      const digits = Math.abs(exponent);
+    const raw = str(values, "value").replace(/[\s,]/g, "");
+    if (!raw) return fail("Type the number you want in standard form.");
+    const value = Number(raw);
+    if (!Number.isFinite(value)) {
+      return fail("That is not a number. Try something like 0.00042 or 56000.");
+    }
+    if (value === 0) {
       return {
         ok: true,
         output: {
-          answer: `${fmt(mantissa)} × 10^${exponent}`,
-          steps: [
-            {
-              title: "Move the decimal point until one non-zero digit sits before it",
-              math: `${fmt(value, 10)} → ${fmt(mantissa)}`,
-            },
-            {
-              title: exponent > 0 ? "The point moved left, so the power is positive" : "The point moved right, so the power is negative",
-              math: `10^${exponent} (${digits} place${digits === 1 ? "" : "s"})`,
-            },
-            {
-              title: "Check the mantissa is between 1 and 10",
-              math: `1 ≤ ${fmt(mantissa)} < 10 ✓`,
-            },
-          ],
+          answer: "0 = 0 × 10⁰",
+          steps: [{ title: "Zero stays zero in standard form" }],
         },
       };
     }
 
-    const a = num(values, "a");
-    const b = num(values, "b");
-    const n = num(values, "n");
-    const m = num(values, "m");
-    const error = requireNumbers([
-      { label: "First mantissa A", value: a },
-      { label: "First power n", value: n },
-      { label: "Second mantissa B", value: b },
-      { label: "Second power m", value: m },
-    ]);
-    if (error) return fail(error);
-
-    if (mode === "divide" && b === 0) return fail("Cannot divide by zero.");
-
-    const mantissa = mode === "multiply" ? a * b : a / b;
-    const exponent = mode === "multiply" ? n + m : n - m;
-    const normalised = toStandardForm(mantissa * Math.pow(10, exponent));
+    const { mantissa, exponent } = toStandardForm(value);
+    const digits = Math.abs(exponent);
 
     return {
       ok: true,
       output: {
-        answer: `${fmt(normalised.mantissa)} × 10^${normalised.exponent}`,
+        answer: `${fmt(mantissa)} × 10^${exponent}`,
+        extras: [`ordinary number: ${fmt(value, 10)}`],
         steps: [
           {
-            title: mode === "multiply" ? "Multiply the mantissas and add the powers" : "Divide the mantissas and subtract the powers",
-            math:
-              mode === "multiply"
-                ? `${fmt(a)} × ${fmt(b)} = ${fmt(a * b)} and 10^${n} × 10^${m} = 10^${exponent}`
-                : `${fmt(a)} ÷ ${fmt(b)} = ${fmt(a / b)} and 10^${n} ÷ 10^${m} = 10^${exponent}`,
+            title: "Move the decimal point until one non-zero digit sits before it",
+            math: `${fmt(value, 10)} → ${fmt(mantissa)}`,
+            detail: `The point moves ${exponent > 0 ? "left" : "right"}.`,
           },
           {
-            title: "Combine",
-            math: `${fmt(mantissa)} × 10^${exponent}`,
+            title:
+              exponent > 0
+                ? "The point moved left, so the power is positive"
+                : "The point moved right, so the power is negative",
+            math: `power = ${exponent} (${digits} place${digits === 1 ? "" : "s"})`,
           },
-          ...(normalised.mantissa === mantissa && normalised.exponent === exponent
-            ? []
-            : [
-              {
-                title: "The mantissa was not between 1 and 10, so adjust",
-                math: `${fmt(normalised.mantissa)} × 10^${normalised.exponent}`,
-                detail: "",
-              },
-              ]),
+          {
+            title: "Check the mantissa is between 1 and 10",
+            math: `1 ≤ ${fmt(mantissa)} < 10 ✓`,
+          },
+          {
+            title: "Result",
+            math: `${fmt(value, 10)} = ${fmt(mantissa)} × 10^${exponent}`,
+          },
         ],
       },
     };
@@ -376,25 +328,26 @@ const standardForm: CalcTool = {
 const fdp: CalcTool = {
   kind: "calc",
   name: "Fractions · Decimals · Percentages",
-  summary: "Convert between fractions, decimals and percentages with the working shown.",
+  summary: "Type a fraction, decimal or percentage and get the other two forms.",
   formula: "decimal = numerator ÷ denominator  ·  percentage = decimal × 100",
   fields: [
     {
-      id: "mode",
-      label: "Starting form",
-      type: "select",
-      defaultValue: "fraction",
-      options: [
-        { value: "fraction", label: "Fraction (e.g. 3/8)" },
-        { value: "decimal", label: "Decimal (e.g. 0.375)" },
-        { value: "percentage", label: "Percentage (e.g. 37.5)" },
-      ],
+      id: "value",
+      label: "Value",
+      type: "text",
+      defaultValue: "3/8",
+      hint: "Type a fraction (3/8), a decimal (0.375) or a percentage (37.5%) — it works out the rest.",
     },
-    { id: "value", label: "Value", type: "text", defaultValue: "3/8" },
   ],
   solve(values: Values): SolveOutcome {
-    const mode = str(values, "mode");
-    const raw = str(values, "value");
+    // No mode to pick: the shape of what was typed says which form it is.
+    const typed = str(values, "value").trim();
+    const mode = typed.includes("/")
+      ? "fraction"
+      : typed.includes("%")
+        ? "percentage"
+        : "decimal";
+    const raw = typed.replace("%", "").trim();
     let decimal: number;
 
     if (mode === "fraction") {
@@ -455,8 +408,8 @@ const fdp: CalcTool = {
     const fraction = toFraction(pctDecimal);
     return {
       ok: true,
-      output: {
-        answer: `${fmt(pctDecimal, 6)} · ${fraction}`,          steps: [
+      output: {          answer: `${fmt(pctDecimal, 6)} · ${fraction}`,
+          steps: [
             { title: "Divide by 100 for the decimal", math: `${fmt(inputPercentage)} ÷ 100 = ${fmt(pctDecimal, 6)}` },
             { title: "Write the decimal as a fraction", math: `= ${fraction} in lowest terms`, detail: "" },
             {

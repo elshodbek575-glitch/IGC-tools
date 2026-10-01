@@ -91,6 +91,21 @@ const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
 
 
 
+/**
+ * Every navigation starts at the top of the new page. Without this the browser
+ * keeps the previous scroll offset, so opening a tool landed you halfway down
+ * the page as if you had already scrolled it.
+ */
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [pathname]);
+  return null;
+}
+
 function RouteSyncer() {
   const location = useLocation();
   useEffect(() => {
@@ -131,6 +146,7 @@ createRoot(document.getElementById("root")!).render(
           <I18nProvider>
           <BrowserRouter>
             <RouteSyncer />
+            <ScrollToTop />
             <Suspense fallback={<RouteLoading />}>
               <Routes>
                 <Route path="/" element={<Home />} />

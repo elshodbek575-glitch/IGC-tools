@@ -157,10 +157,11 @@ export function DiagramRunner({ def }: { def: DiagramTool }) {
                 {def.parts.map((item, itemIndex) => (
                   <li key={item.id} className="flex gap-4">
                     <span
-                      className="text-label w-6 shrink-0 font-mono font-semibold"
+                      aria-hidden
+                      className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full border border-border font-mono text-label font-semibold"
                       style={{ color: "var(--subject)" }}
                     >
-                      {String(itemIndex + 1).padStart(2, "0")}
+                      {itemIndex + 1}
                     </span>
                     <span>
                       <span className="block text-sm font-medium">
@@ -197,9 +198,19 @@ export function DiagramRunner({ def }: { def: DiagramTool }) {
           >
             <DrawingFigure
               drawing={def.drawing}
-              markers={mode === "quiz" ? [markers[index]].filter(Boolean) : undefined}
+              /* Reference mode labels every part at once so the numbers match
+                 the list on the left; the quiz reveals them one at a time. */
+              markers={
+                mode === "quiz" ? [markers[index]].filter(Boolean) : markers
+              }
             />
           </motion.div>
+
+          {mode === "reference" && (
+            <p className="text-label mt-4 text-muted-foreground">
+              {t("diagram.numbersMatch")}
+            </p>
+          )}
 
           {mode === "quiz" && part && (
             <p className="text-label mt-4 text-muted-foreground">
