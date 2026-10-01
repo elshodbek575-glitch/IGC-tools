@@ -22,7 +22,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <Seo
         title={t("dash.seoTitle")}
         description={t("dash.seoDescription")}

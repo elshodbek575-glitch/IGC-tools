@@ -144,10 +144,22 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    /* Phones: hold the layout at the width we asked for and stop iOS/Android
+       inflating type on its own. Zoom is deliberately left alone — pinch-zoom
+       and double-tap zoom both keep working, so a reader can enlarge a formula
+       or a diagram themselves. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
   body {
     @apply bg-background text-foreground;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    /* A stray wide child must not add sideways scroll on a phone. `clip` rather
+       than `hidden`: it does not create a scroll container, so the sticky
+       header and fixed portal overlays keep working. */
+    overflow-x: clip;
   }
   button:not([disabled]),
   [role="button"]:not([disabled]) {

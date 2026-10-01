@@ -11,7 +11,7 @@ import { useI18n } from "@/lib/i18n";
 export default function NotFound() {
   const { t } = useI18n();
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-dvh flex-col">
       <Seo
         title={t("nf.seoTitle")}
         description={t("nf.seoDescription")}

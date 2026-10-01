@@ -125,7 +125,7 @@ function ShellPreview() {
 export default function Home() {
   const { t, tOr, subjectName } = useI18n();
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-dvh flex-col">
       <Seo
         title={t("home.seoTitle")}
         description={t("home.seoDescription")}
@@ -136,7 +136,7 @@ export default function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
         <div className="pointer-events-none absolute inset-0 bg-blueprint" />
-        <div className="relative mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-16">
+        <div className="relative mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <div className="grid items-start gap-12 lg:grid-cols-2">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -202,7 +202,7 @@ export default function Home() {
 
       {/* Subjects */}
       <section id="subjects" className="border-b border-border">
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
+        <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -292,7 +292,7 @@ export default function Home() {
 
       {/* Principles */}
       <section id="principles" className="border-b border-border">
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
+        <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <motion.h2
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -368,7 +368,7 @@ export default function Home() {
 
       {/* Roadmap */}
       <section id="roadmap" className="border-b border-border">
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
+        <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -433,7 +433,7 @@ export default function Home() {
       {/* CTA */}
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-blueprint" />
-        <div className="relative mx-auto w-full max-w-6xl px-4 py-16 text-center sm:px-6">
+        <div className="relative mx-auto w-full max-w-6xl px-4 py-12 text-center sm:px-6 sm:py-16">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}

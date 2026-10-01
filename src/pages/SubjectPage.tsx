@@ -26,7 +26,7 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
 
   if (!subject) {
     return (
-      <div className="flex min-h-screen flex-col">
+      <div className="flex min-h-dvh flex-col">
         <SiteHeader />
         <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-4 py-16 text-center sm:px-6">
           <h1 className="text-3xl font-bold tracking-tight">
@@ -50,7 +50,7 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
   const blurb = tOr(`subject.${subject.id}.blurb`, subject.blurb);
 
   return (
-    <div className={cn("flex min-h-screen flex-col", subject.themeClass)}>
+    <div className={cn("flex min-h-dvh flex-col", subject.themeClass)}>
       <Seo
         title={`${subjectName(subject.id, subject.name)} IGCSE · IGCtools`}
         description={`${tagline} Built on the ${subject.boards.join(

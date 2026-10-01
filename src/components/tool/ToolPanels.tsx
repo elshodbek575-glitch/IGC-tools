@@ -15,10 +15,12 @@ export function PanelHeading({
 }) {
   return (
     <div className="flex items-center justify-between gap-4 border-b border-border px-6 py-4">
-      <h2 className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
+      {/* `min-w-0` lets the heading shrink instead of pushing the action button
+          off the side of a phone. */}
+      <h2 className="text-label min-w-0 font-semibold tracking-wide text-muted-foreground uppercase">
         {children}
       </h2>
-      {action}
+      {action ? <div className="shrink-0">{action}</div> : null}
     </div>
   );
 }

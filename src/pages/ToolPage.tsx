@@ -30,7 +30,7 @@ export default function ToolPage() {
 
   if (!ref) {
     return (
-      <div className="flex min-h-screen flex-col">
+      <div className="flex min-h-dvh flex-col">
         <Seo
           title="Tool not found · IGCtools"
           description="That revision tool doesn't exist."

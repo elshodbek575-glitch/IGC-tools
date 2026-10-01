@@ -44,12 +44,14 @@ export function CopyButton({
       {copied ? (
         <>
           <Check className="size-4 text-success" />
-          {t("common.copied")}
+          {/* On phones the label is dropped so the heading and button share one
+              row without wrapping; the aria-label still announces the action. */}
+          <span className="hidden sm:inline">{t("common.copied")}</span>
         </>
       ) : (
         <>
           <Copy className="size-4" />
-          {labelText}
+          <span className="hidden sm:inline">{labelText}</span>
         </>
       )}
     </Button>

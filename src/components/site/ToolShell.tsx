@@ -41,7 +41,7 @@ export function ToolShell({
   const toolNote = tOr(`tool.${subject.id}.${slug}.note`, tool.note);
 
   return (
-    <div className={cn("flex min-h-screen flex-col", subject.themeClass)}>
+    <div className={cn("flex min-h-dvh flex-col", subject.themeClass)}>
       <SiteHeader />
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
