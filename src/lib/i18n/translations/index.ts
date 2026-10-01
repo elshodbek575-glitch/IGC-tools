@@ -1,4 +1,5 @@
 import type { Dict } from "../types";
+import { COMPLETION } from "./completion";
 import { en } from "./en";
 import { SUBJECT_COPY } from "./subject-copy";
 import { SUBJECT_COPY_C } from "./subject-copy-c";
@@ -29,6 +30,8 @@ const CONTENT: Record<string, Dict>[] = [
   SUBJECT_COPY_C,
   SUBJECT_COPY_CORE,
   SUBJECT_COPY_CORE_BLURBS,
+  // Applied last so per-key fixes always win over the tier dictionaries.
+  COMPLETION,
 ];
 
 /**
