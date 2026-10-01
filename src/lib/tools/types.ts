@@ -1,5 +1,5 @@
 /**
- * NovaTools tool engine — shared types.
+ * IGCtools tool engine — shared types.
  *
  * Every tool on the site is a data definition, not a bespoke page. Three kinds
  * cover the whole catalogue:

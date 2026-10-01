@@ -1,5 +1,5 @@
 /**
- * The languages NovaTools can be viewed in.
+ * The languages IGCtools can be viewed in.
  *
  * The list covers the fifty most-spoken languages in the world (by total
  * speakers) plus Uzbek. One language is active at a time; `en` is the source

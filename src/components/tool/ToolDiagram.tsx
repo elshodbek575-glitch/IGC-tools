@@ -63,7 +63,7 @@ function renderShape(shape: Shape, key: number) {
 }
 
 /**
- * Renders an original NovaTools diagram. Every diagram on the site is declared
+ * Renders an original IGCtools diagram. Every diagram on the site is declared
  * as plain shape data and drawn here — nothing is sourced from a textbook.
  */
 export function DrawingFigure({
@@ -81,7 +81,7 @@ export function DrawingFigure({
       viewBox={drawing.viewBox}
       className={cn("h-auto w-full", className)}
       role="img"
-      aria-label="Original NovaTools diagram"
+      aria-label="Original IGCtools diagram"
     >
       {drawing.shapes.map(renderShape)}
       {markers?.map((marker) => (

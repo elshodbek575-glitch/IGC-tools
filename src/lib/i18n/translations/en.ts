@@ -9,7 +9,7 @@ import type { Dict } from "../types";
  */
 export const en: Dict = {
   // ── Chrome / navigation ──────────────────────────────────────────────────
-  "header.brandSub": "IGCSE STEM",
+  "header.brandSub": "IGCSE STEM REVISION",
   "header.home": "Home",
   "header.subjects": "Subjects",
   "header.igcseSubjects": "IGCSE subjects",
@@ -56,7 +56,7 @@ export const en: Dict = {
   "footer.startRevising": "Start revising",
   "footer.howItWorks": "How it works",
   "footer.roadmap": "Roadmap",
-  "footer.copyright": "© {year} NovaTools · Built for IGCSE students.",
+  "footer.copyright": "© {year} IGCtools · Built for IGCSE students.",
   "footer.disclaimer":
     "Written from the publicly published Cambridge and Edexcel IGCSE syllabus specifications. Not affiliated with or endorsed by the exam boards.",
 
@@ -71,13 +71,13 @@ export const en: Dict = {
   "search.empty": "No tools match that search.",
 
   // ── Home ─────────────────────────────────────────────────────────────────
-  "home.seoTitle": "NovaTools · IGCSE STEM Revision Toolkit",
+  "home.seoTitle": "IGCtools · IGCSE STEM Revision Toolkit",
   "home.seoDescription":
     "Free IGCSE revision tools for Mathematics, Physics, Chemistry, Biology and Computer Science. Every tool shows its working — built on the Cambridge and Edexcel syllabuses.",
   "home.badge": "Cambridge & Edexcel IGCSE",
   "home.heroTitle": "One revision toolkit for all five IGCSE STEM subjects.",
   "home.heroBody":
-    "NovaTools builds calculators, solvers and practice generators for Mathematics, Physics, Chemistry, Biology and Computer Science — and every one of them shows the working, not just the answer.",
+    "IGCtools builds calculators, solvers and practice generators for Mathematics, Physics, Chemistry, Biology and Computer Science — and every one of them shows the working, not just the answer.",
   "home.startMaths": "Start with Maths",
   "home.browseSubjects": "Browse subjects",
   "home.statTools": "Planned tools",
@@ -208,14 +208,14 @@ export const en: Dict = {
     "You'll come straight back to this page once you're signed in.",
 
   // ── Dashboard ────────────────────────────────────────────────────────────
-  "dash.seoTitle": "Your dashboard · NovaTools",
-  "dash.seoDescription": "Your NovaTools IGCSE revision workspace.",
+  "dash.seoTitle": "Your dashboard · IGCtools",
+  "dash.seoDescription": "Your IGCtools IGCSE revision workspace.",
   "dash.welcome": "Welcome back",
   "dash.body":
     "Pick a subject to explore its syllabus topics and the tools being built for it. Progress will save here as each subject goes live.",
 
   // ── Not found ────────────────────────────────────────────────────────────
-  "nf.seoTitle": "Page not found · NovaTools",
+  "nf.seoTitle": "Page not found · IGCtools",
   "nf.seoDescription": "The page you were looking for doesn't exist.",
   "nf.title": "Page not found",
   "nf.body":

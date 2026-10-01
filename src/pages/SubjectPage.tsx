@@ -52,7 +52,7 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
   return (
     <div className={cn("flex min-h-screen flex-col", subject.themeClass)}>
       <Seo
-        title={`${subjectName(subject.id, subject.name)} IGCSE · NovaTools`}
+        title={`${subjectName(subject.id, subject.name)} IGCSE · IGCtools`}
         description={`${tagline} Built on the ${subject.boards.join(
           " and ",
         )} specifications, with ${subject.tools.length} tools that show their working.`}

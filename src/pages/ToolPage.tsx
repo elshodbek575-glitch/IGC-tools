@@ -32,7 +32,7 @@ export default function ToolPage() {
     return (
       <div className="flex min-h-screen flex-col">
         <Seo
-          title="Tool not found · NovaTools"
+          title="Tool not found · IGCtools"
           description="That revision tool doesn't exist."
           path="/404"
           noindex
@@ -64,7 +64,7 @@ export default function ToolPage() {
   return (
     <>
       <Seo
-        title={`${toolName} · ${subjectShort} IGCSE · NovaTools`}
+        title={`${toolName} · ${subjectShort} IGCSE · IGCtools`}
         description={`${toolNote} Free IGCSE ${subjectShort} revision tool with the full step-by-step working shown.`}
         path={ref.path}
         noindex={!definition}

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 export const SITE_URL = "https://novatoolsv1.freebuff.app";
-export const SITE_NAME = "NovaTools";
+export const SITE_NAME = "IGCtools";
 
 function setMeta(attr: "name" | "property", key: string, content: string) {
   let el = document.head.querySelector<HTMLMetaElement>(

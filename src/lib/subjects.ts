@@ -1,7 +1,7 @@
 import { Atom, Cpu, Dna, FlaskConical, Sigma, type LucideIcon } from "lucide-react";
 
 /**
- * NovaTools subject registry.
+ * IGCtools subject registry.
  *
  * Everything the shell needs to render a subject section lives here so the five
  * subject landing pages share one design system and only vary by accent, icon

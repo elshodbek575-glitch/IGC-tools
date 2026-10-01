@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-import { BrandMark } from "@/components/site/BrandMark";
+import { BrandMark, Wordmark } from "@/components/site/BrandMark";
 import { useI18n } from "@/lib/i18n";
 import { SUBJECTS } from "@/lib/subjects";
 
@@ -10,9 +10,9 @@ export function SiteFooter() {
     <footer className="border-t border-border bg-background">
       <div className="mx-auto grid w-full max-w-6xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-2">
         <div>
-          <Link to="/" className="flex items-center gap-2">
-            <BrandMark className="size-8 text-primary" />
-            <span className="text-base font-bold tracking-tight">NovaTools</span>
+          <Link to="/" className="flex items-center gap-3">
+            <BrandMark className="size-10 shrink-0" />
+            <Wordmark tagline={t("header.brandSub")} />
           </Link>
           <p className="mt-4 max-w-sm text-sm text-muted-foreground">
             {t("footer.description")}

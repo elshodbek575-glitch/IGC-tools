@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import { ArrowRight, LogOut } from "lucide-react";
 
-import { BrandMark } from "@/components/site/BrandMark";
+import { BrandMark, Wordmark } from "@/components/site/BrandMark";
 import { Seo } from "@/components/site/Seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -32,9 +32,9 @@ export default function Dashboard() {
 
       <header className="border-b border-border">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-          <Link to="/" className="flex items-center gap-2">
-            <BrandMark className="size-8 text-primary" />
-            <span className="text-sm font-bold tracking-tight">NovaTools</span>
+          <Link to="/" className="flex items-center gap-3">
+            <BrandMark className="size-8 shrink-0" />
+            <Wordmark size="text-base" tagline={t("header.brandSub")} />
           </Link>
           <Button
             type="button"

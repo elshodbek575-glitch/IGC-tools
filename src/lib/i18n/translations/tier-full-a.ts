@@ -46,7 +46,7 @@ export const TIER_FULL_A: Record<string, Dict> = {
     "footer.startRevising": "Empezar a repasar",
     "footer.howItWorks": "Cómo funciona",
     "footer.roadmap": "Hoja de ruta",
-    "footer.copyright": "© {year} NovaTools · Creado para estudiantes de IGCSE.",
+    "footer.copyright": "© {year} IGCtools · Creado para estudiantes de IGCSE.",
     "footer.disclaimer":
       "Elaborado a partir de las especificaciones públicas de los programas de IGCSE de Cambridge y Edexcel. No está afiliado ni respaldado por las juntas examinadoras.",
     "search.findTool": "Buscar una herramienta",
@@ -58,14 +58,14 @@ export const TIER_FULL_A: Record<string, Dict> = {
       "Encuentra una herramienta de repaso de IGCSE por nombre o tema",
     "search.inputPlaceholder": "Buscar herramientas…",
     "search.empty": "Ninguna herramienta coincide con esa búsqueda.",
-    "home.seoTitle": "NovaTools · Kit de repaso STEM para IGCSE",
+    "home.seoTitle": "IGCtools · Kit de repaso STEM para IGCSE",
     "home.seoDescription":
       "Herramientas gratuitas de repaso de IGCSE para Matemáticas, Física, Química, Biología e Informática. Cada herramienta muestra su desarrollo, basadas en los programas de Cambridge y Edexcel.",
     "home.badge": "IGCSE de Cambridge y Edexcel",
     "home.heroTitle":
       "Un solo kit de repaso para las cinco asignaturas STEM de IGCSE.",
     "home.heroBody":
-      "NovaTools crea calculadoras, resolutores y generadores de práctica para Matemáticas, Física, Química, Biología e Informática, y todos ellos muestran el desarrollo, no solo la respuesta.",
+      "IGCtools crea calculadoras, resolutores y generadores de práctica para Matemáticas, Física, Química, Biología e Informática, y todos ellos muestran el desarrollo, no solo la respuesta.",
     "home.startMaths": "Empezar con Matemáticas",
     "home.browseSubjects": "Ver asignaturas",
     "home.statTools": "Herramientas previstas",
@@ -185,12 +185,12 @@ export const TIER_FULL_A: Record<string, Dict> = {
       "Esta página solo está disponible para usuarios con sesión iniciada.",
     "requireAuth.returnNote":
       "Volverás directamente a esta página cuando inicies sesión.",
-    "dash.seoTitle": "Tu panel · NovaTools",
-    "dash.seoDescription": "Tu espacio de repaso de IGCSE de NovaTools.",
+    "dash.seoTitle": "Tu panel · IGCtools",
+    "dash.seoDescription": "Tu espacio de repaso de IGCSE de IGCtools.",
     "dash.welcome": "Bienvenido de nuevo",
     "dash.body":
       "Elige una asignatura para explorar sus temas del programa y las herramientas que se están creando. El progreso se guardará aquí a medida que cada asignatura esté disponible.",
-    "nf.seoTitle": "Página no encontrada · NovaTools",
+    "nf.seoTitle": "Página no encontrada · IGCtools",
     "nf.seoDescription": "La página que buscabas no existe.",
     "nf.title": "Página no encontrada",
     "nf.body":
@@ -246,7 +246,7 @@ export const TIER_FULL_A: Record<string, Dict> = {
     "footer.howItWorks": "Comment ça marche",
     "footer.roadmap": "Feuille de route",
     "footer.copyright":
-      "© {year} NovaTools · Conçu pour les élèves de l'IGCSE.",
+      "© {year} IGCtools · Conçu pour les élèves de l'IGCSE.",
     "footer.disclaimer":
       "Rédigé à partir des programmes d'IGCSE publiés par Cambridge et Edexcel. Non affilié et non approuvé par les commissions d'examen.",
     "search.findTool": "Trouver un outil",
@@ -258,14 +258,14 @@ export const TIER_FULL_A: Record<string, Dict> = {
       "Trouvez un outil de révision IGCSE par nom ou par thème",
     "search.inputPlaceholder": "Rechercher des outils…",
     "search.empty": "Aucun outil ne correspond à cette recherche.",
-    "home.seoTitle": "NovaTools · Boîte à outils de révision STEM IGCSE",
+    "home.seoTitle": "IGCtools · Boîte à outils de révision STEM IGCSE",
     "home.seoDescription":
       "Outils de révision IGCSE gratuits pour les mathématiques, la physique, la chimie, la biologie et l'informatique. Chaque outil montre son raisonnement, d'après les programmes de Cambridge et Edexcel.",
     "home.badge": "IGCSE Cambridge et Edexcel",
     "home.heroTitle":
       "Une seule boîte à outils de révision pour les cinq matières STEM de l'IGCSE.",
     "home.heroBody":
-      "NovaTools crée des calculatrices, des résolveurs et des générateurs d'exercices pour les mathématiques, la physique, la chimie, la biologie et l'informatique — et chacun montre le raisonnement, pas seulement la réponse.",
+      "IGCtools crée des calculatrices, des résolveurs et des générateurs d'exercices pour les mathématiques, la physique, la chimie, la biologie et l'informatique — et chacun montre le raisonnement, pas seulement la réponse.",
     "home.startMaths": "Commencer par les maths",
     "home.browseSubjects": "Parcourir les matières",
     "home.statTools": "Outils prévus",
@@ -388,12 +388,12 @@ export const TIER_FULL_A: Record<string, Dict> = {
       "Cette page n'est accessible qu'aux utilisateurs connectés.",
     "requireAuth.returnNote":
       "Vous reviendrez directement sur cette page une fois connecté.",
-    "dash.seoTitle": "Votre tableau de bord · NovaTools",
-    "dash.seoDescription": "Votre espace de révision IGCSE NovaTools.",
+    "dash.seoTitle": "Votre tableau de bord · IGCtools",
+    "dash.seoDescription": "Votre espace de révision IGCSE IGCtools.",
     "dash.welcome": "Bon retour",
     "dash.body":
       "Choisissez une matière pour explorer ses thèmes du programme et les outils en cours de création. La progression sera enregistrée ici au fur et à mesure.",
-    "nf.seoTitle": "Page introuvable · NovaTools",
+    "nf.seoTitle": "Page introuvable · IGCtools",
     "nf.seoDescription": "La page que vous cherchiez n'existe pas.",
     "nf.title": "Page introuvable",
     "nf.body":
@@ -449,7 +449,7 @@ export const TIER_FULL_A: Record<string, Dict> = {
     "footer.howItWorks": "So funktioniert es",
     "footer.roadmap": "Fahrplan",
     "footer.copyright":
-      "© {year} NovaTools · Für IGCSE-Schülerinnen und -Schüler entwickelt.",
+      "© {year} IGCtools · Für IGCSE-Schülerinnen und -Schüler entwickelt.",
     "footer.disclaimer":
       "Verfasst auf Grundlage der öffentlich veröffentlichten IGCSE-Lehrpläne von Cambridge und Edexcel. Nicht mit den Prüfungsausschüssen verbunden oder von ihnen unterstützt.",
     "search.findTool": "Werkzeug finden",
@@ -461,14 +461,14 @@ export const TIER_FULL_A: Record<string, Dict> = {
       "Finde ein IGCSE-Wiederholungswerkzeug nach Name oder Thema",
     "search.inputPlaceholder": "Werkzeuge suchen…",
     "search.empty": "Keine Werkzeuge passen zu dieser Suche.",
-    "home.seoTitle": "NovaTools · STEM-Wiederholungstoolkit für IGCSE",
+    "home.seoTitle": "IGCtools · STEM-Wiederholungstoolkit für IGCSE",
     "home.seoDescription":
       "Kostenlose IGCSE-Wiederholungswerkzeuge für Mathematik, Physik, Chemie, Biologie und Informatik. Jedes Werkzeug zeigt seinen Rechenweg – auf Grundlage der Lehrpläne von Cambridge und Edexcel.",
     "home.badge": "IGCSE von Cambridge und Edexcel",
     "home.heroTitle":
       "Ein Wiederholungstoolkit für alle fünf IGCSE-STEM-Fächer.",
     "home.heroBody":
-      "NovaTools erstellt Rechner, Löser und Übungsgeneratoren für Mathematik, Physik, Chemie, Biologie und Informatik – und jeder zeigt den Rechenweg, nicht nur die Antwort.",
+      "IGCtools erstellt Rechner, Löser und Übungsgeneratoren für Mathematik, Physik, Chemie, Biologie und Informatik – und jeder zeigt den Rechenweg, nicht nur die Antwort.",
     "home.startMaths": "Mit Mathematik beginnen",
     "home.browseSubjects": "Fächer durchsuchen",
     "home.statTools": "Geplante Werkzeuge",
@@ -591,12 +591,12 @@ export const TIER_FULL_A: Record<string, Dict> = {
       "Diese Seite ist nur für angemeldete Nutzer verfügbar.",
     "requireAuth.returnNote":
       "Du kehrst direkt zu dieser Seite zurück, sobald du angemeldet bist.",
-    "dash.seoTitle": "Deine Übersicht · NovaTools",
-    "dash.seoDescription": "Dein NovaTools-Arbeitsbereich für IGCSE.",
+    "dash.seoTitle": "Deine Übersicht · IGCtools",
+    "dash.seoDescription": "Dein IGCtools-Arbeitsbereich für IGCSE.",
     "dash.welcome": "Willkommen zurück",
     "dash.body":
       "Wähle ein Fach, um seine Lehrplanthemen und die dafür entstehenden Werkzeuge zu erkunden. Der Fortschritt wird hier gespeichert, sobald jedes Fach online geht.",
-    "nf.seoTitle": "Seite nicht gefunden · NovaTools",
+    "nf.seoTitle": "Seite nicht gefunden · IGCtools",
     "nf.seoDescription": "Die gesuchte Seite existiert nicht.",
     "nf.title": "Seite nicht gefunden",
     "nf.body":
@@ -652,7 +652,7 @@ export const TIER_FULL_A: Record<string, Dict> = {
     "footer.howItWorks": "Como funciona",
     "footer.roadmap": "Plano",
     "footer.copyright":
-      "© {year} NovaTools · Criado para alunos do IGCSE.",
+      "© {year} IGCtools · Criado para alunos do IGCSE.",
     "footer.disclaimer":
       "Redigido a partir das especificações públicas dos programas de IGCSE de Cambridge e Edexcel. Sem afiliação ou aprovação das entidades examinadoras.",
     "search.findTool": "Encontrar uma ferramenta",
@@ -664,14 +664,14 @@ export const TIER_FULL_A: Record<string, Dict> = {
       "Encontre uma ferramenta de revisão de IGCSE por nome ou tema",
     "search.inputPlaceholder": "Pesquisar ferramentas…",
     "search.empty": "Nenhuma ferramenta corresponde a essa pesquisa.",
-    "home.seoTitle": "NovaTools · Conjunto de revisão STEM para IGCSE",
+    "home.seoTitle": "IGCtools · Conjunto de revisão STEM para IGCSE",
     "home.seoDescription":
       "Ferramentas gratuitas de revisão de IGCSE para Matemática, Física, Química, Biologia e Informática. Cada ferramenta mostra o seu raciocínio, com base nos programas de Cambridge e Edexcel.",
     "home.badge": "IGCSE de Cambridge e Edexcel",
     "home.heroTitle":
       "Um único conjunto de revisão para as cinco disciplinas STEM do IGCSE.",
     "home.heroBody":
-      "A NovaTools cria calculadoras, resolvedores e geradores de exercícios para Matemática, Física, Química, Biologia e Informática — e todos mostram o raciocínio, não apenas a resposta.",
+      "A IGCtools cria calculadoras, resolvedores e geradores de exercícios para Matemática, Física, Química, Biologia e Informática — e todos mostram o raciocínio, não apenas a resposta.",
     "home.startMaths": "Começar por Matemática",
     "home.browseSubjects": "Ver disciplinas",
     "home.statTools": "Ferramentas previstas",
@@ -793,12 +793,12 @@ export const TIER_FULL_A: Record<string, Dict> = {
       "Esta página está disponível apenas para utilizadores com sessão iniciada.",
     "requireAuth.returnNote":
       "Voltarás diretamente a esta página assim que iniciares sessão.",
-    "dash.seoTitle": "O teu painel · NovaTools",
-    "dash.seoDescription": "O teu espaço de revisão de IGCSE da NovaTools.",
+    "dash.seoTitle": "O teu painel · IGCtools",
+    "dash.seoDescription": "O teu espaço de revisão de IGCSE da IGCtools.",
     "dash.welcome": "Bem-vindo de volta",
     "dash.body":
       "Escolhe uma disciplina para explorar os seus temas e as ferramentas que estão a ser criadas. O progresso será guardado aqui à medida que cada disciplina fica disponível.",
-    "nf.seoTitle": "Página não encontrada · NovaTools",
+    "nf.seoTitle": "Página não encontrada · IGCtools",
     "nf.seoDescription": "A página que procuras não existe.",
     "nf.title": "Página não encontrada",
     "nf.body":
@@ -853,7 +853,7 @@ export const TIER_FULL_A: Record<string, Dict> = {
     "footer.startRevising": "Inizia a ripassare",
     "footer.howItWorks": "Come funziona",
     "footer.roadmap": "Roadmap",
-    "footer.copyright": "© {year} NovaTools · Creato per gli studenti IGCSE.",
+    "footer.copyright": "© {year} IGCtools · Creato per gli studenti IGCSE.",
     "footer.disclaimer":
       "Scritto sulla base dei programmi IGCSE pubblicati da Cambridge ed Edexcel. Non affiliato né approvato dagli enti esaminatori.",
     "search.findTool": "Trova uno strumento",
@@ -865,14 +865,14 @@ export const TIER_FULL_A: Record<string, Dict> = {
       "Trova uno strumento di ripasso IGCSE per nome o argomento",
     "search.inputPlaceholder": "Cerca strumenti…",
     "search.empty": "Nessuno strumento corrisponde a questa ricerca.",
-    "home.seoTitle": "NovaTools · Kit di ripasso STEM per IGCSE",
+    "home.seoTitle": "IGCtools · Kit di ripasso STEM per IGCSE",
     "home.seoDescription":
       "Strumenti gratuiti di ripasso IGCSE per Matematica, Fisica, Chimica, Biologia e Informatica. Ogni strumento mostra il suo svolgimento, basato sui programmi di Cambridge ed Edexcel.",
     "home.badge": "IGCSE di Cambridge ed Edexcel",
     "home.heroTitle":
       "Un unico kit di ripasso per tutte e cinque le materie STEM dell'IGCSE.",
     "home.heroBody":
-      "NovaTools crea calcolatrici, risolutori e generatori di esercizi per Matematica, Fisica, Chimica, Biologia e Informatica — e ognuno mostra lo svolgimento, non solo la risposta.",
+      "IGCtools crea calcolatrici, risolutori e generatori di esercizi per Matematica, Fisica, Chimica, Biologia e Informatica — e ognuno mostra lo svolgimento, non solo la risposta.",
     "home.startMaths": "Inizia con Matematica",
     "home.browseSubjects": "Sfoglia le materie",
     "home.statTools": "Strumenti previsti",
@@ -995,12 +995,12 @@ export const TIER_FULL_A: Record<string, Dict> = {
       "Questa pagina è disponibile solo per gli utenti che hanno effettuato l'accesso.",
     "requireAuth.returnNote":
       "Tornerai direttamente a questa pagina dopo l'accesso.",
-    "dash.seoTitle": "La tua dashboard · NovaTools",
-    "dash.seoDescription": "Il tuo spazio di ripasso IGCSE su NovaTools.",
+    "dash.seoTitle": "La tua dashboard · IGCtools",
+    "dash.seoDescription": "Il tuo spazio di ripasso IGCSE su IGCtools.",
     "dash.welcome": "Bentornato",
     "dash.body":
       "Scegli una materia per esplorare i suoi argomenti e gli strumenti in costruzione. I progressi verranno salvati qui man mano che ogni materia diventa disponibile.",
-    "nf.seoTitle": "Pagina non trovata · NovaTools",
+    "nf.seoTitle": "Pagina non trovata · IGCtools",
     "nf.seoDescription": "La pagina che cercavi non esiste.",
     "nf.title": "Pagina non trovata",
     "nf.body":

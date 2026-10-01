@@ -8,6 +8,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+import { BrandMark, Wordmark } from "@/components/site/BrandMark";
 import { CopyButton } from "@/components/site/CopyButton";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -142,10 +143,12 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
             >
-              <Badge variant="outline" className="text-muted-foreground">
-                {t("home.badge")}
-              </Badge>
-              <h1 className="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">
+              {/* Brand lockup — mark, gradient wordmark and strapline. */}
+              <div className="flex items-center gap-4">
+                <BrandMark className="size-16 shrink-0" />
+                <Wordmark size="text-4xl" tagline={t("header.brandSub")} />
+              </div>
+              <h1 className="mt-8 text-3xl font-bold tracking-tight sm:text-4xl">
                 {t("home.heroTitle")}
               </h1>
               <p className="mt-4 max-w-xl text-base text-muted-foreground">

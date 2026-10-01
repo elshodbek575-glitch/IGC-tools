@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import { ChevronDown, LayoutDashboard, Menu } from "lucide-react";
 
-import { BrandMark } from "@/components/site/BrandMark";
+import { BrandMark, Wordmark } from "@/components/site/BrandMark";
 import { LanguageSwitcher } from "@/components/site/LanguageSwitcher";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { ToolSearchDialog } from "@/components/site/ToolSearch";
@@ -99,14 +99,12 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link to="/" className="flex items-center gap-2">
-          <BrandMark className="size-8 text-primary" />
-          <span className="flex flex-col">
-            <span className="text-sm font-bold tracking-tight">NovaTools</span>
-            <span className="text-label text-muted-foreground">
-              {t("header.brandSub")}
-            </span>
-          </span>
+        <Link to="/" className="flex items-center gap-3">
+          <BrandMark className="size-9 shrink-0" />
+          <Wordmark
+            tagline={t("header.brandSub")}
+            taglineClassName="hidden sm:block"
+          />
         </Link>
 
         <nav className="hidden items-center gap-2 md:flex">
@@ -179,9 +177,9 @@ export function SiteHeader() {
             </SheetTrigger>
             <SheetContent side="right" className="w-80 overflow-y-auto">
               <SheetHeader>
-                <SheetTitle className="flex items-center gap-2">
-                  <BrandMark className="size-6 text-primary" />
-                  NovaTools
+                <SheetTitle className="flex items-center gap-3">
+                  <BrandMark className="size-8 shrink-0" />
+                  <Wordmark size="text-base" />
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-2 px-4 pb-8">
