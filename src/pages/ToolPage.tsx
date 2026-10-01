@@ -8,6 +8,7 @@ import { CalcRunner } from "@/components/tool/CalcRunner";
 import { DiagramRunner } from "@/components/tool/DiagramRunner";
 import { ExplorerRunner } from "@/components/tool/ExplorerRunner";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import { getDefinition } from "@/lib/tools";
 import { findTool } from "@/lib/subjects";
 
@@ -18,6 +19,7 @@ import { findTool } from "@/lib/subjects";
  * `ToolShell`, which delegates the working area to the right runner.
  */
 export default function ToolPage() {
+  const { t } = useI18n();
   const { subjectId, toolSlug } = useParams<{
     subjectId: string;
     toolSlug: string;
@@ -37,13 +39,14 @@ export default function ToolPage() {
         />
         <SiteHeader />
         <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-4 py-16 text-center sm:px-6">
-          <h1 className="text-3xl font-bold tracking-tight">Tool not found</h1>
+          <h1 className="text-3xl font-bold tracking-tight">
+            {t("tool.notFoundTitle")}
+          </h1>
           <p className="mt-4 max-w-md text-sm text-muted-foreground">
-            There&apos;s no tool at that address. Browse a subject to see every
-            tool in its section.
+            {t("tool.notFoundBody")}
           </p>
           <Button asChild className="mt-8">
-            <Link to="/">Back to home</Link>
+            <Link to="/">{t("common.backHome")}</Link>
           </Button>
         </main>
         <SiteFooter />

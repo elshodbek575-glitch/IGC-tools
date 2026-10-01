@@ -5,10 +5,12 @@ import { Check, RotateCcw, X } from "lucide-react";
 import { DrawingFigure } from "@/components/tool/ToolDiagram";
 import { ToolPanels } from "@/components/tool/ToolPanels";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import type { DiagramTool } from "@/lib/tools/types";
 import { cn } from "@/lib/utils";
 
 export function DiagramRunner({ def }: { def: DiagramTool }) {
+  const { t } = useI18n();
   const [mode, setMode] = useState<"reference" | "quiz">("quiz");
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
@@ -54,7 +56,7 @@ export function DiagramRunner({ def }: { def: DiagramTool }) {
         <div className="flex flex-col gap-6">
           <div>
             <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-              Mode
+              {t("diagram.mode")}
             </p>
             <div className="mt-4 flex flex-wrap gap-4">
               <Button
@@ -62,14 +64,14 @@ export function DiagramRunner({ def }: { def: DiagramTool }) {
                 variant={mode === "quiz" ? "default" : "outline"}
                 onClick={() => setMode("quiz")}
               >
-                Label quiz
+                {t("diagram.labelQuiz")}
               </Button>
               <Button
                 type="button"
                 variant={mode === "reference" ? "default" : "outline"}
                 onClick={() => setMode("reference")}
               >
-                Show labels
+                {t("diagram.showLabels")}
               </Button>
             </div>
           </div>
@@ -77,7 +79,7 @@ export function DiagramRunner({ def }: { def: DiagramTool }) {
           {mode === "quiz" ? (
             <div>
               <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-                Which part is numbered {index + 1}?
+                {t("diagram.whichPart", { number: index + 1 })}
               </p>
               <div className="mt-4 flex flex-col gap-2">
                 {options.map((option) => {
@@ -124,7 +126,7 @@ export function DiagramRunner({ def }: { def: DiagramTool }) {
               <div className="mt-6 flex flex-wrap items-center gap-4">
                 {isCorrect && (
                   <Button type="button" onClick={next}>
-                    Next part
+                    {t("diagram.nextPart")}
                   </Button>
                 )}
                 <Button
@@ -134,19 +136,22 @@ export function DiagramRunner({ def }: { def: DiagramTool }) {
                   onClick={restart}
                 >
                   <RotateCcw className="size-4" />
-                  Restart quiz
+                  {t("diagram.restartQuiz")}
                 </Button>
               </div>
 
               <p className="text-label mt-4 text-muted-foreground">
-                Settled correctly: {solvedCount} of {def.parts.length} · attempts{" "}
-                {attempts}
+                {t("diagram.settled", {
+                  solved: solvedCount,
+                  total: def.parts.length,
+                  attempts,
+                })}
               </p>
             </div>
           ) : (
             <div>
               <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-                Labelled parts
+                {t("diagram.labelledParts")}
               </p>
               <ol className="mt-4 flex flex-col gap-4">
                 {def.parts.map((item, itemIndex) => (
@@ -175,12 +180,12 @@ export function DiagramRunner({ def }: { def: DiagramTool }) {
       result={
         <div>
           <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-            Diagram
+            {t("diagram.diagram")}
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
             {mode === "quiz"
-              ? "Find the numbered part on the diagram, then choose its name."
-              : "Every part labelled, with what it does."}
+              ? t("diagram.hintQuiz")
+              : t("diagram.hintReference")}
           </p>
 
           <motion.div
@@ -201,8 +206,8 @@ export function DiagramRunner({ def }: { def: DiagramTool }) {
               {picked && isCorrect
                 ? `${part.name} — ${part.role}`
                 : picked
-                  ? "Not that one. Look again at where the marker sits."
-                  : "Choose an answer on the left."}
+                  ? t("diagram.wrong")
+                  : t("diagram.choose")}
             </p>
           )}
         </div>

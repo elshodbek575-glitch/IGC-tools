@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { useI18n } from "@/lib/i18n";
 import { ALL_TOOLS, SUBJECTS } from "@/lib/subjects";
 import { cn } from "@/lib/utils";
 
@@ -24,21 +25,9 @@ import { cn } from "@/lib/utils";
 const HOVER = "transition-colors duration-150";
 
 const PRINCIPLES = [
-  {
-    icon: BookOpenCheck,
-    title: "Every tool shows its working",
-    body: "Each calculator, solver and generator reveals the full method — the formula, the substitution and the units — not just a final answer.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Original content only",
-    body: "Questions, explanations and diagrams are written and drawn from scratch. Diagrams are original SVG, never textbook images.",
-  },
-  {
-    icon: CircuitBoard,
-    title: "Runs entirely in your browser",
-    body: "Tools run client-side like the rest of the site. Nothing is uploaded or stored on a server, so revision is instant and private.",
-  },
+  { icon: BookOpenCheck, titleKey: "home.p1Title", bodyKey: "home.p1Body" },
+  { icon: ShieldCheck, titleKey: "home.p2Title", bodyKey: "home.p2Body" },
+  { icon: CircuitBoard, titleKey: "home.p3Title", bodyKey: "home.p3Body" },
 ];
 
 const WORKING_STEPS = [
@@ -49,6 +38,7 @@ const WORKING_STEPS = [
 
 /** Static preview of the shared tool shell: input card beside a working panel. */
 function ShellPreview() {
+  const { t } = useI18n();
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -59,7 +49,7 @@ function ShellPreview() {
       <Card className="gap-0 py-0">
         <div className="border-b border-border px-6 py-4">
           <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-            Inputs
+            {t("panels.inputs")}
           </p>
         </div>
         <CardContent className="px-6 py-6">
@@ -76,13 +66,13 @@ function ShellPreview() {
       <Card className="gap-0 py-0">
         <div className="flex items-center justify-between gap-4 border-b border-border px-6 py-4">
           <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-            Result &amp; working
+            {t("panels.resultWorking")}
           </p>
           <CopyButton value="x = 2 or x = 3" />
         </div>
         <div className="working-panel px-6 py-6">
           <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-            Answer
+            {t("common.answer")}
           </p>
           <motion.p
             initial={{ opacity: 0, y: 8 }}
@@ -116,11 +106,12 @@ function ShellPreview() {
 }
 
 export default function Home() {
+  const { t, subjectName } = useI18n();
   return (
     <div className="flex min-h-screen flex-col">
       <Seo
-        title="NovaTools · IGCSE STEM Revision Toolkit"
-        description="Free IGCSE revision tools for Mathematics, Physics, Chemistry, Biology and Computer Science. Every tool shows its working — built on the Cambridge and Edexcel syllabuses."
+        title={t("home.seoTitle")}
+        description={t("home.seoDescription")}
         path="/"
       />
       <SiteHeader />
@@ -136,26 +127,24 @@ export default function Home() {
               transition={{ duration: 0.4 }}
             >
               <Badge variant="outline" className="text-muted-foreground">
-                Cambridge &amp; Edexcel IGCSE
+                {t("home.badge")}
               </Badge>
               <h1 className="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">
-                One revision toolkit for all five IGCSE STEM subjects.
+                {t("home.heroTitle")}
               </h1>
               <p className="mt-4 max-w-xl text-base text-muted-foreground">
-                NovaTools builds calculators, solvers and practice generators for
-                Mathematics, Physics, Chemistry, Biology and Computer Science —
-                and every one of them shows the working, not just the answer.
+                {t("home.heroBody")}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <Button asChild size="lg" className="gap-2">
                   <Link to="/maths">
-                    Start with Maths
+                    {t("home.startMaths")}
                     <ArrowRight className="size-4" />
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
-                  <a href="#subjects">Browse subjects</a>
+                  <a href="#subjects">{t("home.browseSubjects")}</a>
                 </Button>
               </div>
 
@@ -164,21 +153,23 @@ export default function Home() {
               <dl className="mt-8 flex flex-wrap gap-8">
                 <div>
                   <dt className="text-label text-muted-foreground">
-                    Planned tools
+                    {t("home.statTools")}
                   </dt>
                   <dd className="mt-2 font-mono text-2xl font-semibold">
                     {ALL_TOOLS.length}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-label text-muted-foreground">Subjects</dt>
+                  <dt className="text-label text-muted-foreground">
+                    {t("home.statSubjects")}
+                  </dt>
                   <dd className="mt-2 font-mono text-2xl font-semibold">
                     {SUBJECTS.length}
                   </dd>
                 </div>
                 <div>
                   <dt className="text-label text-muted-foreground">
-                    Uploaded to a server
+                    {t("home.statUploaded")}
                   </dt>
                   <dd className="mt-2 font-mono text-2xl font-semibold">0</dd>
                 </div>
@@ -201,12 +192,10 @@ export default function Home() {
             className="max-w-2xl"
           >
             <h2 className="text-3xl font-bold tracking-tight">
-              Five subjects. Five sections.
+              {t("home.subjectsTitle")}
             </h2>
             <p className="mt-4 text-base text-muted-foreground">
-              Each subject has its own landing page listing its tools and the
-              syllabus topics they map to. Jump between them any time from the
-              navigation.
+              {t("home.subjectsBody")}
             </p>
           </motion.div>
 
@@ -231,11 +220,13 @@ export default function Home() {
                             style={{ color: subject.accent }}
                           />
                           <span className="text-label text-muted-foreground">
-                            {subject.tools.length} tools
+                            {t("header.toolsCount", {
+                              count: subject.tools.length,
+                            })}
                           </span>
                         </div>
                         <h3 className="text-xl font-semibold tracking-tight">
-                          {subject.name}
+                          {subjectName(subject.id, subject.name)}
                         </h3>
                         <p className="flex-1 text-sm text-muted-foreground">
                           {subject.tagline}
@@ -247,7 +238,7 @@ export default function Home() {
                           )}
                           style={{ color: subject.accent }}
                         >
-                          Open section
+                          {t("common.openSection")}
                           <ArrowRight className="size-4 transition-transform duration-150 group-hover:translate-x-1" />
                         </span>
                       </CardContent>
@@ -268,12 +259,10 @@ export default function Home() {
                 <CardContent className="flex h-full flex-col gap-4 px-6">
                   <BadgeCheck className="size-5 text-muted-foreground" />
                   <h3 className="text-xl font-semibold tracking-tight">
-                    Built subject by subject
+                    {t("home.builtTitle")}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Maths is being built first, then Physics, Chemistry, Biology
-                    and Computer Science. Open a section to see its topics and
-                    tool list.
+                    {t("home.builtBody")}
                   </p>
                 </CardContent>
               </Card>
@@ -292,7 +281,7 @@ export default function Home() {
             transition={{ duration: 0.4 }}
             className="max-w-2xl text-3xl font-bold tracking-tight"
           >
-            Designed for how students actually revise.
+            {t("home.principlesTitle")}
           </motion.h2>
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
@@ -300,7 +289,7 @@ export default function Home() {
               const Icon = principle.icon;
               return (
                 <motion.div
-                  key={principle.title}
+                  key={principle.titleKey}
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
@@ -311,10 +300,10 @@ export default function Home() {
                     <CardContent className="flex h-full flex-col gap-4 px-6">
                       <Icon className="size-5 text-primary" />
                       <h3 className="text-xl font-semibold tracking-tight">
-                        {principle.title}
+                        {t(principle.titleKey)}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        {principle.body}
+                        {t(principle.bodyKey)}
                       </p>
                     </CardContent>
                   </Card>
@@ -335,12 +324,10 @@ export default function Home() {
                 <BadgeCheck className="size-5 shrink-0 text-primary" />
                 <div>
                   <h3 className="text-xl font-semibold tracking-tight">
-                    Mapped to the official syllabus
+                    {t("home.syllabusTitle")}
                   </h3>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    We work from the freely published Cambridge and Edexcel IGCSE
-                    subject specifications — the documents that list every topic
-                    and required skill. No copyrighted textbook content is used.
+                    {t("home.syllabusBody")}
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {SUBJECTS.flatMap((subject) => subject.boards).map((board) => (
@@ -371,11 +358,10 @@ export default function Home() {
             className="max-w-2xl"
           >
             <h2 className="text-3xl font-bold tracking-tight">
-              Shipping one subject at a time.
+              {t("home.roadmapTitle")}
             </h2>
             <p className="mt-4 text-base text-muted-foreground">
-              Each subject goes live with a full set of tools before the next one
-              starts, so what is on the site is always finished and reliable.
+              {t("home.roadmapBody")}
             </p>
           </motion.div>
 
@@ -396,7 +382,7 @@ export default function Home() {
                 >
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-label text-muted-foreground">
-                      Step {index + 1}
+                      {t("home.step", { number: index + 1 })}
                     </span>
                     <span
                       className={cn(
@@ -410,11 +396,13 @@ export default function Home() {
                     className="mt-6 size-5"
                     style={{ color: subject.accent }}
                   />
-                  <p className="mt-4 text-sm font-semibold">{subject.shortName}</p>
+                  <p className="mt-4 text-sm font-semibold">
+                    {subjectName(subject.id, subject.name)}
+                  </p>
                   <p className="mt-2 text-label text-muted-foreground">
                     {subject.status === "in-progress"
-                      ? "Building now"
-                      : "Queued next"}
+                      ? t("common.buildingNow")
+                      : t("common.planned")}
                   </p>
                 </motion.div>
               );
@@ -435,21 +423,20 @@ export default function Home() {
             className="mx-auto max-w-2xl"
           >
             <h2 className="text-3xl font-bold tracking-tight">
-              Start revising the way exams are marked.
+              {t("home.ctaTitle")}
             </h2>
             <p className="mt-4 text-base text-muted-foreground">
-              Pick a subject to explore its syllabus topics and the tools being
-              built for it.
+              {t("home.ctaBody")}
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Button asChild size="lg" className="gap-2">
                 <Link to="/maths">
-                  Explore Maths
+                  {t("common.exploreMaths")}
                   <ArrowRight className="size-4" />
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link to="/physics">Explore Physics</Link>
+                <Link to="/physics">{t("common.explorePhysics")}</Link>
               </Button>
             </div>
           </motion.div>

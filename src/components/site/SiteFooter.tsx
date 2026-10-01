@@ -1,9 +1,11 @@
 import { Link } from "react-router";
 
 import { BrandMark } from "@/components/site/BrandMark";
+import { useI18n } from "@/lib/i18n";
 import { SUBJECTS } from "@/lib/subjects";
 
 export function SiteFooter() {
+  const { t, subjectName } = useI18n();
   return (
     <footer className="border-t border-border bg-background">
       <div className="mx-auto grid w-full max-w-6xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-2">
@@ -13,16 +15,14 @@ export function SiteFooter() {
             <span className="text-base font-bold tracking-tight">NovaTools</span>
           </Link>
           <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-            A free IGCSE STEM revision toolkit for Mathematics, Physics,
-            Chemistry, Biology and Computer Science. Every tool shows its
-            working.
+            {t("footer.description")}
           </p>
         </div>
 
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
           <div>
             <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-              Subjects
+              {t("footer.subjects")}
             </p>
             <ul className="mt-4 space-y-4">
               {SUBJECTS.map((subject) => (
@@ -31,7 +31,7 @@ export function SiteFooter() {
                     to={subject.slug}
                     className="text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground"
                   >
-                    {subject.name}
+                    {subjectName(subject.id, subject.name)}
                   </Link>
                 </li>
               ))}
@@ -39,7 +39,7 @@ export function SiteFooter() {
           </div>
           <div>
             <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-              Toolkit
+              {t("footer.toolkit")}
             </p>
             <ul className="mt-4 space-y-4">
               <li>
@@ -47,7 +47,7 @@ export function SiteFooter() {
                   to="/maths"
                   className="text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground"
                 >
-                  Start revising
+                  {t("footer.startRevising")}
                 </Link>
               </li>
               <li>
@@ -55,7 +55,7 @@ export function SiteFooter() {
                   to="/#principles"
                   className="text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground"
                 >
-                  How it works
+                  {t("footer.howItWorks")}
                 </Link>
               </li>
               <li>
@@ -63,14 +63,14 @@ export function SiteFooter() {
                   to="/#roadmap"
                   className="text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground"
                 >
-                  Roadmap
+                  {t("footer.roadmap")}
                 </Link>
               </li>
             </ul>
           </div>
           <div>
             <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-              Account
+              {t("footer.account")}
             </p>
             <ul className="mt-4 space-y-4">
               <li>
@@ -78,7 +78,7 @@ export function SiteFooter() {
                   to="/auth"
                   className="text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground"
                 >
-                  Sign in
+                  {t("common.signIn")}
                 </Link>
               </li>
               <li>
@@ -86,7 +86,7 @@ export function SiteFooter() {
                   to="/dashboard"
                   className="text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground"
                 >
-                  Dashboard
+                  {t("common.dashboard")}
                 </Link>
               </li>
             </ul>
@@ -96,12 +96,8 @@ export function SiteFooter() {
 
       <div className="border-t border-border">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-8 text-label text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p>© {new Date().getFullYear()} NovaTools · Built for IGCSE students.</p>
-          <p className="max-w-xl sm:text-right">
-            Written from the publicly published Cambridge and Edexcel IGCSE
-            syllabus specifications. Not affiliated with or endorsed by the exam
-            boards.
-          </p>
+          <p>{t("footer.copyright", { year: new Date().getFullYear() })}</p>
+          <p className="max-w-xl sm:text-right">{t("footer.disclaimer")}</p>
         </div>
       </div>
     </footer>

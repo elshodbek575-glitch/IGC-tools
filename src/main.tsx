@@ -8,6 +8,7 @@ import { ThemeProvider } from "next-themes";
 import React, { StrictMode, useEffect, lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router";
+import { I18nProvider, useTranslation } from "@/lib/i18n";
 import "./index.css";
 
 // Lazy load route components for better code splitting
@@ -20,9 +21,12 @@ const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 // Simple loading fallback for route transitions
 function RouteLoading() {
+  const t = useTranslation();
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="animate-pulse text-muted-foreground">Loading...</div>
+      <div className="animate-pulse text-muted-foreground">
+        {t("common.loading")}
+      </div>
     </div>
   );
 }
@@ -124,6 +128,7 @@ createRoot(document.getElementById("root")!).render(
         disableTransitionOnChange
       >
         <ConvexAuthProvider client={convex}>
+          <I18nProvider>
           <BrowserRouter>
             <RouteSyncer />
             <Suspense fallback={<RouteLoading />}>
@@ -171,6 +176,7 @@ createRoot(document.getElementById("root")!).render(
             </Suspense>
           </BrowserRouter>
           <Toaster />
+          </I18nProvider>
         </ConvexAuthProvider>
       </ThemeProvider>
     </RootErrorBoundary>

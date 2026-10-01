@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from "react-router";
 import { ChevronDown, LayoutDashboard, Menu } from "lucide-react";
 
 import { BrandMark } from "@/components/site/BrandMark";
+import { LanguageSwitcher } from "@/components/site/LanguageSwitcher";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { ToolSearchDialog } from "@/components/site/ToolSearch";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/use-auth";
+import { useI18n } from "@/lib/i18n";
 import { SUBJECTS } from "@/lib/subjects";
 import { cn } from "@/lib/utils";
 
@@ -40,6 +42,7 @@ function SubjectLink({
   onNavigate?: () => void;
   active: boolean;
 }) {
+  const { subjectName } = useI18n();
   const Icon = subject.icon;
   return (
     <Link
@@ -51,18 +54,19 @@ function SubjectLink({
       )}
     >
       <Icon className="size-4" style={{ color: subject.accent }} />
-      {subject.name}
+      {subjectName(subject.id, subject.name)}
     </Link>
   );
 }
 
 function AuthAction({ className }: { className?: string }) {
   const { isAuthenticated, isLoading } = useAuth();
+  const { t } = useI18n();
 
   if (isLoading) {
     return (
       <Button variant="outline" size="sm" disabled className={className}>
-        Sign in
+        {t("common.signIn")}
       </Button>
     );
   }
@@ -73,10 +77,10 @@ function AuthAction({ className }: { className?: string }) {
         {isAuthenticated ? (
           <>
             <LayoutDashboard className="size-4" />
-            Dashboard
+            {t("common.dashboard")}
           </>
         ) : (
-          "Sign in"
+          t("common.signIn")
         )}
       </Link>
     </Button>
@@ -86,6 +90,7 @@ function AuthAction({ className }: { className?: string }) {
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const { t, subjectName } = useI18n();
   const onSubjectsRoute = SUBJECTS.some(
     (subject) =>
       pathname === subject.slug || pathname.startsWith(`${subject.slug}/`),
@@ -99,14 +104,14 @@ export function SiteHeader() {
           <span className="flex flex-col">
             <span className="text-sm font-bold tracking-tight">NovaTools</span>
             <span className="text-label text-muted-foreground">
-              IGCSE STEM
+              {t("header.brandSub")}
             </span>
           </span>
         </Link>
 
         <nav className="hidden items-center gap-2 md:flex">
           <NavLink to="/" end className={({ isActive }) => navItemClass(isActive)}>
-            Home
+            {t("header.home")}
           </NavLink>
 
           <DropdownMenu>
@@ -119,13 +124,13 @@ export function SiteHeader() {
                   onSubjectsRoute && "bg-accent text-foreground",
                 )}
               >
-                Subjects
+                {t("header.subjects")}
                 <ChevronDown className="size-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-64">
               <DropdownMenuLabel className="text-label text-muted-foreground">
-                IGCSE subjects
+                {t("header.igcseSubjects")}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               {SUBJECTS.map((subject) => {
@@ -139,10 +144,12 @@ export function SiteHeader() {
                       />
                       <span className="flex flex-1 items-center justify-between gap-2">
                         <span className="text-sm font-medium">
-                          {subject.name}
+                          {subjectName(subject.id, subject.name)}
                         </span>
                         <span className="text-label text-muted-foreground">
-                          {subject.tools.length} tools
+                          {t("header.toolsCount", {
+                            count: subject.tools.length,
+                          })}
                         </span>
                       </span>
                     </Link>
@@ -155,6 +162,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <ToolSearchDialog />
+          <LanguageSwitcher />
           <ThemeToggle />
           <AuthAction className="hidden sm:inline-flex" />
 
@@ -164,7 +172,7 @@ export function SiteHeader() {
                 variant="ghost"
                 size="icon"
                 className="md:hidden"
-                aria-label="Open menu"
+                aria-label={t("header.openMenu")}
               >
                 <Menu className="size-5" />
               </Button>
@@ -182,10 +190,10 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className="rounded-lg px-4 py-3 text-sm font-medium transition-colors duration-150 hover:bg-accent"
                 >
-                  Home
+                  {t("header.home")}
                 </Link>
                 <p className="text-label mt-2 px-4 font-semibold tracking-wide text-muted-foreground uppercase">
-                  Subjects
+                  {t("header.subjects")}
                 </p>
                 {SUBJECTS.map((subject) => (
                   <SubjectLink

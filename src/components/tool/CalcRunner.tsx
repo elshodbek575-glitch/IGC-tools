@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useI18n } from "@/lib/i18n";
 import { hasDefaults } from "@/lib/tools/helpers";
 import type { CalcTool, SolveOutcome, Values } from "@/lib/tools/types";
 
@@ -21,6 +22,7 @@ function fieldInputId(toolName: string, fieldId: string) {
 }
 
 export function CalcRunner({ def }: { def: CalcTool }) {
+  const { t } = useI18n();
   const initial = useMemo(() => {
     const values: Values = {};
     for (const field of def.fields) values[field.id] = field.defaultValue ?? "";
@@ -73,7 +75,7 @@ export function CalcRunner({ def }: { def: CalcTool }) {
                       onValueChange={(value) => set(field.id, value)}
                     >
                       <SelectTrigger id={id} className="mt-2 w-full">
-                        <SelectValue placeholder="Choose an option" />
+                        <SelectValue placeholder={t("calc.chooseOption")} />
                       </SelectTrigger>
                       <SelectContent>
                         {field.options?.map((option) => (
@@ -107,7 +109,7 @@ export function CalcRunner({ def }: { def: CalcTool }) {
           <div className="flex flex-wrap gap-4">
             <Button type="submit" className="gap-2">
               <Wand2 className="size-4" />
-              Solve
+              {t("common.solve")}
             </Button>
             <Button
               type="button"
@@ -119,7 +121,7 @@ export function CalcRunner({ def }: { def: CalcTool }) {
               }}
             >
               <RotateCcw className="size-4" />
-              Reset
+              {t("common.reset")}
             </Button>
           </div>
         </form>
@@ -127,8 +129,7 @@ export function CalcRunner({ def }: { def: CalcTool }) {
       result={
         outcome === null ? (
           <p className="text-sm text-muted-foreground">
-            Fill in the inputs and press Solve — the answer appears here with
-            every step of the working.
+            {t("calc.emptyHint")}
           </p>
         ) : outcome.ok ? (
           <ResultView output={outcome.output} />
@@ -137,7 +138,7 @@ export function CalcRunner({ def }: { def: CalcTool }) {
             <AlertTriangle className="mt-1 size-5 shrink-0 text-destructive" />
             <div>
               <p className="text-sm font-medium text-destructive">
-                Can&apos;t solve that yet
+                {t("calc.cantSolve")}
               </p>
               <p className="mt-2 text-sm text-muted-foreground">
                 {outcome.error}

@@ -7,10 +7,12 @@ import { Seo } from "@/components/site/Seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
+import { useI18n } from "@/lib/i18n";
 import { SUBJECTS } from "@/lib/subjects";
 import { cn } from "@/lib/utils";
 
 export default function Dashboard() {
+  const { t, subjectName } = useI18n();
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
@@ -22,8 +24,8 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Seo
-        title="Your dashboard · NovaTools"
-        description="Your NovaTools IGCSE revision workspace."
+        title={t("dash.seoTitle")}
+        description={t("dash.seoDescription")}
         path="/dashboard"
         noindex
       />
@@ -42,7 +44,7 @@ export default function Dashboard() {
             onClick={handleSignOut}
           >
             <LogOut className="size-4" />
-            Sign out
+            {t("common.signOut")}
           </Button>
         </div>
       </header>
@@ -54,11 +56,11 @@ export default function Dashboard() {
           transition={{ duration: 0.4 }}
         >
           <h1 className="text-3xl font-bold tracking-tight">
-            Welcome back{user?.name ? `, ${user.name}` : ""}
+            {t("dash.welcome")}
+            {user?.name ? `, ${user.name}` : ""}
           </h1>
           <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
-            Pick a subject to explore its syllabus topics and the tools being
-            built for it. Progress will save here as each subject goes live.
+            {t("dash.body")}
           </p>
         </motion.div>
 
@@ -81,7 +83,7 @@ export default function Dashboard() {
                         style={{ color: subject.accent }}
                       />
                       <h2 className="text-xl font-semibold tracking-tight">
-                        {subject.name}
+                        {subjectName(subject.id, subject.name)}
                       </h2>
                       <p className="flex-1 text-sm text-muted-foreground">
                         {subject.tagline}
@@ -89,8 +91,8 @@ export default function Dashboard() {
                       <span className="flex items-center gap-2 border-t border-border pt-4 text-sm font-medium">
                         <span style={{ color: subject.accent }}>
                           {subject.status === "in-progress"
-                            ? "Building now"
-                            : "Planned"}
+                            ? t("common.buildingNow")
+                            : t("common.planned")}
                         </span>
                         <ArrowRight className="size-4 text-muted-foreground transition-transform duration-150 group-hover:translate-x-1" />
                       </span>

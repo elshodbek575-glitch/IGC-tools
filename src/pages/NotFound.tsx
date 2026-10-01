@@ -6,13 +6,15 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { Seo } from "@/components/site/Seo";
 import { ToolSearchBar } from "@/components/site/ToolSearch";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 
 export default function NotFound() {
+  const { t } = useI18n();
   return (
     <div className="flex min-h-screen flex-col">
       <Seo
-        title="Page not found · NovaTools"
-        description="The page you were looking for doesn't exist."
+        title={t("nf.seoTitle")}
+        description={t("nf.seoDescription")}
         path="/404"
         noindex
       />
@@ -27,19 +29,18 @@ export default function NotFound() {
         >
           <p className="font-mono text-sm font-semibold text-primary">404</p>
           <h1 className="mt-4 text-3xl font-bold tracking-tight">
-            Page not found
+            {t("nf.title")}
           </h1>
           <p className="mt-4 text-sm text-muted-foreground">
-            That page doesn&apos;t exist. Search for a tool below, or head back
-            home.
+            {t("nf.body")}
           </p>
           <ToolSearchBar className="mt-8 text-left" />
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Button asChild>
-              <Link to="/">Back to home</Link>
+              <Link to="/">{t("common.backHome")}</Link>
             </Button>
             <Button asChild variant="outline">
-              <Link to="/maths">Explore Maths</Link>
+              <Link to="/maths">{t("common.exploreMaths")}</Link>
             </Button>
           </div>
         </motion.div>

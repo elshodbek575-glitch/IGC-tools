@@ -14,12 +14,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useI18n } from "@/lib/i18n";
 import { getSubject, slugify, SUBJECTS } from "@/lib/subjects";
 import { cn } from "@/lib/utils";
 
 const HOVER = "transition-colors duration-150";
 
 export default function SubjectPage({ subjectId }: { subjectId: string }) {
+  const { t, subjectName } = useI18n();
   const subject = getSubject(subjectId);
 
   if (!subject) {
@@ -28,13 +30,13 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
         <SiteHeader />
         <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-4 py-16 text-center sm:px-6">
           <h1 className="text-3xl font-bold tracking-tight">
-            Subject not found
+            {t("subject.notFoundTitle")}
           </h1>
           <p className="mt-4 text-sm text-muted-foreground">
-            That subject doesn&apos;t exist yet.
+            {t("subject.notFoundBody")}
           </p>
           <Button asChild className="mt-8">
-            <Link to="/">Back to home</Link>
+            <Link to="/">{t("common.backHome")}</Link>
           </Button>
         </main>
         <SiteFooter />
@@ -48,7 +50,7 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
   return (
     <div className={cn("flex min-h-screen flex-col", subject.themeClass)}>
       <Seo
-        title={`${subject.name} IGCSE Tools · NovaTools`}
+        title={`${subjectName(subject.id, subject.name)} IGCSE · NovaTools`}
         description={`${subject.tagline} Built on the ${subject.boards.join(
           " and ",
         )} specifications, with ${subject.tools.length} tools that show their working.`}
@@ -68,7 +70,7 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
             )}
           >
             <ArrowLeft className="size-4" />
-            All subjects
+            {t("subject.allSubjects")}
           </Link>
 
           <div className="mt-8 grid items-start gap-12 lg:grid-cols-2">
@@ -83,21 +85,21 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
                   {isBuilding ? (
                     <>
                       <Clock className="size-3" />
-                      Building now
+                      {t("common.buildingNow")}
                     </>
                   ) : (
                     <>
                       <Hourglass className="size-3" />
-                      Coming soon
+                      {t("common.comingSoon")}
                     </>
                   )}
                 </Badge>
               </div>
 
               <h1 className="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">
-                {subject.name}
+                {subjectName(subject.id, subject.name)}
                 <span className="mt-2 block text-xl font-medium text-muted-foreground">
-                  IGCSE revision tools
+                  {t("subject.revisionTools")}
                 </span>
               </h1>
 
@@ -120,12 +122,12 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
               <div className="mt-8 flex flex-wrap gap-4">
                 <Button asChild size="lg" className="gap-2">
                   <a href="#tools">
-                    Browse {subject.tools.length} tools
+                    {t("subject.browseTools", { count: subject.tools.length })}
                     <ArrowRight className="size-4" />
                   </a>
                 </Button>
                 <Button asChild size="lg" variant="outline">
-                  <a href="#topics">Syllabus topics</a>
+                  <a href="#topics">{t("subject.syllabusTopics")}</a>
                 </Button>
               </div>
             </motion.div>
@@ -138,18 +140,20 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
               <Card className="subject-strip">
                 <CardContent className="px-6">
                   <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-                    Section at a glance
+                    {t("subject.atGlance")}
                   </p>
                   <dl className="mt-6 grid grid-cols-2 gap-6">
                     <div>
-                      <dt className="text-label text-muted-foreground">Tools</dt>
+                      <dt className="text-label text-muted-foreground">
+                        {t("subject.tools")}
+                      </dt>
                       <dd className="mt-2 font-mono text-2xl font-semibold">
                         {subject.tools.length}
                       </dd>
                     </div>
                     <div>
                       <dt className="text-label text-muted-foreground">
-                        Topic areas
+                        {t("subject.topicAreas")}
                       </dt>
                       <dd className="mt-2 font-mono text-2xl font-semibold">
                         {subject.topics.length}
@@ -157,8 +161,7 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
                     </div>
                   </dl>
                   <p className="mt-6 text-sm text-muted-foreground">
-                    Every tool in this section will show its full working. The
-                    pages below are live shells while the tools are built.
+                    {t("subject.glanceNote")}
                   </p>
                 </CardContent>
               </Card>
@@ -178,12 +181,10 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
             className="max-w-2xl"
           >
             <h2 className="text-3xl font-bold tracking-tight">
-              Syllabus topics we&apos;re building from.
+              {t("subject.topicsTitle")}
             </h2>
             <p className="mt-4 text-base text-muted-foreground">
-              These topic areas come from the published{" "}
-              {subject.boards.join(" / ")} specifications. Tools are mapped to
-              these topics — not generic STEM ideas.
+              {t("subject.topicsBody", { boards: subject.boards.join(" / ") })}
             </p>
           </motion.div>
 
@@ -253,12 +254,12 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
             className="max-w-2xl"
           >
             <h2 className="text-3xl font-bold tracking-tight">
-              {subject.tools.length} tools mapped to these topics.
+              {t("subject.toolsMappedTitle", { count: subject.tools.length })}
             </h2>
             <p className="mt-4 text-base text-muted-foreground">
               {isBuilding
-                ? "Maths leads the build. These tool pages are ready as shells while their logic is written."
-                : `This section is queued behind Maths. Here is the tool set mapped to the topics above.`}
+                ? t("subject.toolsBuildingBody")
+                : t("subject.toolsQueuedBody")}
             </p>
           </motion.div>
 
@@ -280,13 +281,15 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
                     <CardContent className="flex h-full flex-col gap-4 px-6">
                       <div className="flex items-center justify-between gap-4">
                         <span className="text-label text-muted-foreground">
-                          Tool {String(index + 1).padStart(2, "0")}
+                          {t("common.toolNumber", {
+                            number: String(index + 1).padStart(2, "0"),
+                          })}
                         </span>
                         <Badge
                           variant="outline"
                           className="text-label text-muted-foreground"
                         >
-                          In development
+                          {t("common.inDevelopment")}
                         </Badge>
                       </div>
                       <h3 className="text-xl font-semibold tracking-tight">
@@ -302,7 +305,7 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
                         )}
                         style={{ color: subject.accent }}
                       >
-                        Open tool
+                        {t("common.openTool")}
                         <ArrowRight className="size-4 transition-transform duration-150 group-hover:translate-x-1" />
                       </span>
                     </CardContent>
@@ -318,7 +321,7 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
       <section className="border-b border-border">
         <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
           <h2 className="text-3xl font-bold tracking-tight">
-            Jump to another subject
+            {t("subject.jumpTitle")}
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {SUBJECTS.filter((other) => other.id !== subject.id).map((other) => {
@@ -338,7 +341,7 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
                     style={{ color: other.accent }}
                   />
                   <span className="flex-1 text-sm font-medium">
-                    {other.name}
+                    {subjectName(other.id, other.name)}
                   </span>
                   <ArrowRight className="size-4 text-muted-foreground transition-transform duration-150 group-hover:translate-x-1" />
                 </Link>

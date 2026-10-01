@@ -6,6 +6,7 @@ import { ResultView } from "@/components/tool/ResultView";
 import { DrawingFigure } from "@/components/tool/ToolDiagram";
 import { ToolPanels } from "@/components/tool/ToolPanels";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import type { ExplorerTool, ExplorerTopic, ResultTable } from "@/lib/tools/types";
 import { cn } from "@/lib/utils";
 
@@ -57,6 +58,7 @@ function TopicTable({ table }: { table: ResultTable }) {
 
 /** Term/definition trainer built from a topic's two-column table. */
 function FlashcardTrainer({ table }: { table: ResultTable }) {
+  const { t } = useI18n();
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const card = table.rows[index];
@@ -65,7 +67,7 @@ function FlashcardTrainer({ table }: { table: ResultTable }) {
   return (
     <div>
       <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-        Card {index + 1} of {total}
+        {t("explorer.cardOf", { index: index + 1, total })}
       </p>
 
       <motion.div
@@ -91,7 +93,7 @@ function FlashcardTrainer({ table }: { table: ResultTable }) {
           </>
         ) : (
           <p className="mt-6 text-sm text-muted-foreground">
-            Try to recall the definition, then reveal it.
+            {t("explorer.tryRecall")}
           </p>
         )}
       </motion.div>
@@ -102,7 +104,7 @@ function FlashcardTrainer({ table }: { table: ResultTable }) {
           variant={revealed ? "outline" : "default"}
           onClick={() => setRevealed((value) => !value)}
         >
-          {revealed ? "Hide definition" : "Reveal definition"}
+          {revealed ? t("explorer.hide") : t("explorer.reveal")}
         </Button>
         <Button
           type="button"
@@ -115,7 +117,7 @@ function FlashcardTrainer({ table }: { table: ResultTable }) {
           }}
         >
           <ChevronLeft className="size-4" />
-          Previous
+          {t("explorer.previous")}
         </Button>
         <Button
           type="button"
@@ -127,7 +129,7 @@ function FlashcardTrainer({ table }: { table: ResultTable }) {
             setRevealed(false);
           }}
         >
-          Next
+          {t("explorer.next")}
           <ChevronRight className="size-4" />
         </Button>
         <Button
@@ -140,7 +142,7 @@ function FlashcardTrainer({ table }: { table: ResultTable }) {
           }}
         >
           <RotateCcw className="size-4" />
-          Restart
+          {t("explorer.restart")}
         </Button>
       </div>
     </div>
@@ -148,11 +150,12 @@ function FlashcardTrainer({ table }: { table: ResultTable }) {
 }
 
 function TopicContent({ topic, index }: { topic: ExplorerTopic; index: number }) {
+  const { t } = useI18n();
   return (
     <div>
       <ResultView
         output={{
-          answerLabel: `Topic ${index + 1}`,
+          answerLabel: t("explorer.topicLabel", { number: index + 1 }),
           answer: topic.name,
           steps: [],
         }}
@@ -202,6 +205,7 @@ function TopicContent({ topic, index }: { topic: ExplorerTopic; index: number })
  * flashcard trainer.
  */
 export function ExplorerRunner({ def }: { def: ExplorerTool }) {
+  const { t } = useI18n();
   const [activeId, setActiveId] = useState(def.topics[0]?.id ?? "");
   const activeIndex = Math.max(
     0,
@@ -212,8 +216,16 @@ export function ExplorerRunner({ def }: { def: ExplorerTool }) {
   if (!topic) {
     return (
       <ToolPanels
-        inputs={<p className="text-sm text-muted-foreground">No topics yet.</p>}
-        result={<p className="text-sm text-muted-foreground">Nothing to show.</p>}
+        inputs={
+          <p className="text-sm text-muted-foreground">
+            {t("explorer.noTopics")}
+          </p>
+        }
+        result={
+          <p className="text-sm text-muted-foreground">
+            {t("explorer.nothing")}
+          </p>
+        }
       />
     );
   }
@@ -223,7 +235,7 @@ export function ExplorerRunner({ def }: { def: ExplorerTool }) {
       inputs={
         <div className="flex flex-col gap-2">
           <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-            Topics
+            {t("explorer.topics")}
           </p>
           <div className="mt-4 flex flex-col gap-2">
             {def.topics.map((item, index) => (

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 
 import { Chart } from "@/components/tool/Chart";
+import { useI18n } from "@/lib/i18n";
 import type { ResultTable, ToolOutput } from "@/lib/tools/types";
 
 function DataTable({ table }: { table: ResultTable }) {
@@ -51,10 +52,11 @@ function DataTable({ table }: { table: ResultTable }) {
  * numbered method so the reasoning is always visible.
  */
 export function ResultView({ output }: { output: ToolOutput }) {
+  const { t } = useI18n();
   return (
     <div>
       <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-        {output.answerLabel ?? "Answer"}
+        {output.answerLabel ?? t("common.answer")}
       </p>
 
       <motion.p

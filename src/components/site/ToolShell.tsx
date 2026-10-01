@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { ToolPanels } from "@/components/tool/ToolPanels";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
+import { useI18n } from "@/lib/i18n";
 import type { Subject, ToolRef } from "@/lib/subjects";
 import { cn } from "@/lib/utils";
 
@@ -32,6 +33,7 @@ export function ToolShell({
   children,
 }: ToolShellProps) {
   const { tool } = toolRef;
+  const { t, subjectName } = useI18n();
   const Icon = subject.icon;
 
   return (
@@ -39,14 +41,14 @@ export function ToolShell({
       <SiteHeader />
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
-        <nav aria-label="Breadcrumb">
+        <nav aria-label={t("shell.breadcrumb")}>
           <ol className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
             <li>
               <Link
                 to="/"
                 className="transition-colors duration-150 hover:text-foreground"
               >
-                Home
+                {t("common.home")}
               </Link>
             </li>
             <ChevronRight className="size-4" />
@@ -55,7 +57,7 @@ export function ToolShell({
                 to={subject.slug}
                 className="transition-colors duration-150 hover:text-foreground"
               >
-                {subject.name}
+                {subjectName(subject.id, subject.name)}
               </Link>
             </li>
             <ChevronRight className="size-4" />
@@ -70,7 +72,7 @@ export function ToolShell({
               {tool.name}
             </h1>
             <Badge variant="outline" className="text-muted-foreground">
-              {children ? "Live" : "In development"}
+              {children ? t("common.live") : t("common.inDevelopment")}
             </Badge>
           </div>
           <p className="mt-4 max-w-2xl text-base text-muted-foreground">
@@ -82,7 +84,7 @@ export function ToolShell({
           <div className="mt-6 flex items-center justify-between gap-4 rounded-xl border border-border bg-card px-6 py-4">
             <div className="min-w-0">
               <p className="text-label font-semibold tracking-wide text-muted-foreground uppercase">
-                Formula
+                {t("common.formula")}
               </p>
               <p className="mt-2 truncate font-mono text-sm">{formula}</p>
             </div>
@@ -102,12 +104,10 @@ export function ToolShell({
             <FlaskConical className="mt-1 size-5 shrink-0 text-muted-foreground" />
             <div>
               <h2 className="text-lg font-semibold tracking-tight">
-                Built to show its working
+                {t("shell.workingTitle")}
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                Every step is laid out in order — the formula, the substitution
-                and the arithmetic — above the final answer. The layout is the
-                same on every tool, so nothing moves around between topics.
+                {t("shell.workingBody")}
               </p>
             </div>
           </div>
@@ -121,28 +121,32 @@ export function ToolShell({
 
 /** Placeholder shown only if a tool has no implementation yet. */
 function ToolInputPlaceholder() {
+  const { t } = useI18n();
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <Label htmlFor="tool-input-placeholder">Value</Label>
+        <Label htmlFor="tool-input-placeholder">
+          {t("shell.placeholderLabel")}
+        </Label>
         <input
           id="tool-input-placeholder"
           disabled
-          placeholder="Inputs arrive with the tool"
+          placeholder={t("shell.placeholderInput")}
           className="mt-2 h-10 w-full rounded-lg border border-input bg-transparent px-4 text-sm text-muted-foreground disabled:cursor-not-allowed disabled:opacity-60"
         />
       </div>
       <p className="text-sm text-muted-foreground">
-        Inputs for this tool appear here, with labels above each field.
+        {t("shell.placeholderNote")}
       </p>
     </div>
   );
 }
 
 function ToolResultPlaceholder() {
+  const { t } = useI18n();
   return (
     <p className="text-sm text-muted-foreground">
-      The worked solution appears here, step by step.
+      {t("shell.placeholderResult")}
     </p>
   );
 }

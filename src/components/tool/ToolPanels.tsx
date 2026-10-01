@@ -4,6 +4,7 @@ import { Copy } from "lucide-react";
 import { CopyButton } from "@/components/site/CopyButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useI18n } from "@/lib/i18n";
 
 export function PanelHeading({
   children,
@@ -35,10 +36,11 @@ export function ToolPanels({
   result: ReactNode;
   resultText?: string;
 }) {
+  const { t } = useI18n();
   return (
     <div className="mt-6 grid gap-6 lg:grid-cols-2">
       <Card className="gap-0 py-0">
-        <PanelHeading>Inputs</PanelHeading>
+        <PanelHeading>{t("panels.inputs")}</PanelHeading>
         <CardContent className="px-6 py-6">{inputs}</CardContent>
       </Card>
 
@@ -46,16 +48,16 @@ export function ToolPanels({
         <PanelHeading
           action={
             resultText ? (
-              <CopyButton value={resultText} label="Copy result" />
+              <CopyButton value={resultText} label={t("common.copyResult")} />
             ) : (
               <Button variant="ghost" size="sm" disabled>
                 <Copy className="size-4" />
-                Copy
+                {t("common.copy")}
               </Button>
             )
           }
         >
-          Result &amp; working
+          {t("panels.resultWorking")}
         </PanelHeading>
         <CardContent className="px-0 py-0">
           <div className="working-panel min-h-full px-6 py-6">{result}</div>

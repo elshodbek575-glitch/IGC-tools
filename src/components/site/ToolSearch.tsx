@@ -12,6 +12,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { useI18n } from "@/lib/i18n";
 import { ALL_TOOLS, searchTools, SUBJECTS, type ToolRef } from "@/lib/subjects";
 
 function SubjectDot({ accent }: { accent: string }) {
@@ -29,6 +30,7 @@ function SubjectDot({ accent }: { accent: string }) {
  * type and links straight to each tool's subject-first URL.
  */
 export function ToolSearchBar({ className }: { className?: string }) {
+  const { t } = useI18n();
   const [query, setQuery] = useState("");
   const results = useMemo(() => searchTools(query, 6), [query]);
   const hasQuery = query.trim().length > 0;
@@ -39,7 +41,7 @@ export function ToolSearchBar({ className }: { className?: string }) {
         htmlFor="tool-search"
         className="text-label font-medium text-foreground"
       >
-        Find a tool
+        {t("search.findTool")}
       </label>
       <div className="relative mt-2">
         <Search className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -48,7 +50,7 @@ export function ToolSearchBar({ className }: { className?: string }) {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           autoComplete="off"
-          placeholder="Search tools — surds, Ohm's law, moles, Punnett square…"
+          placeholder={t("search.placeholder")}
           className="pl-11"
         />
       </div>
@@ -57,7 +59,7 @@ export function ToolSearchBar({ className }: { className?: string }) {
         <ul className="mt-2 overflow-hidden rounded-xl border border-border bg-card">
           {results.length === 0 ? (
             <li className="px-4 py-4 text-sm text-muted-foreground">
-              No tools match “{query.trim()}”.
+              {t("search.noMatch", { query: query.trim() })}
             </li>
           ) : (
             results.map((ref) => (
@@ -111,6 +113,7 @@ function CommandToolItem({
 export function ToolSearchDialog() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { t, subjectName } = useI18n();
 
   const go = (path: string) => {
     setOpen(false);
@@ -124,25 +127,28 @@ export function ToolSearchDialog() {
         variant="outline"
         size="sm"
         onClick={() => setOpen(true)}
-        aria-label="Search tools"
+        aria-label={t("header.searchAria")}
         className="gap-2 text-muted-foreground"
       >
         <Search className="size-4" />
-        <span className="hidden lg:inline">Search</span>
+        <span className="hidden lg:inline">{t("header.search")}</span>
       </Button>
 
       <CommandDialog
         open={open}
         onOpenChange={setOpen}
-        title="Search tools"
-        description="Find an IGCSE revision tool by name or topic"
+        title={t("search.dialogTitle")}
+        description={t("search.dialogDescription")}
         className="sm:max-w-xl"
       >
-        <CommandInput placeholder="Search tools…" />
+        <CommandInput placeholder={t("search.inputPlaceholder")} />
         <CommandList className="max-h-[420px]">
-          <CommandEmpty>No tools match that search.</CommandEmpty>
+          <CommandEmpty>{t("search.empty")}</CommandEmpty>
           {SUBJECTS.map((subject) => (
-            <CommandGroup key={subject.id} heading={subject.name}>
+            <CommandGroup
+              key={subject.id}
+              heading={subjectName(subject.id, subject.name)}
+            >
               {ALL_TOOLS.filter((ref) => ref.subject.id === subject.id).map(
                 (ref) => (
                   <CommandToolItem
