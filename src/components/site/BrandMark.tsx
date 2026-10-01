@@ -39,7 +39,7 @@ export function BrandMark({ className = "size-8" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 64 64"
-      className={className}
+      className={cn("brand-spin", className)}
       role="img"
       aria-label="IGCtools"
     >
@@ -80,12 +80,28 @@ export function BrandMark({ className = "size-8" }: { className?: string }) {
       {/* Face */}
       <path d={HEX_PATH} fill={`url(#${plate})`} />
 
-      {/* Atom, held inside the hexagon */}
+      {/* Atom, held inside the hexagon. The orbits and their nuclei are one
+          group so the whole atom can turn as a unit on hover (see index.css). */}
       <g clipPath={`url(#${clip})`}>
-        <g filter={`url(#${glow})`} opacity="0.8">
+        <g className="brand-atom">
+          <g filter={`url(#${glow})`} opacity="0.8">
+            {ORBIT_ANGLES.map((angle) => (
+              <ellipse
+                key={`blur-${angle}`}
+                cx="32"
+                cy="32"
+                rx="19"
+                ry="7.6"
+                fill="none"
+                stroke={`url(#${orbit})`}
+                strokeWidth="3"
+                transform={`rotate(${angle} 32 32)`}
+              />
+            ))}
+          </g>
           {ORBIT_ANGLES.map((angle) => (
             <ellipse
-              key={`blur-${angle}`}
+              key={angle}
               cx="32"
               cy="32"
               rx="19"
@@ -96,35 +112,30 @@ export function BrandMark({ className = "size-8" }: { className?: string }) {
               transform={`rotate(${angle} 32 32)`}
             />
           ))}
+          {NUCLEI.map(([cx, cy]) => (
+            <circle
+              key={`${cx}-${cy}`}
+              cx={cx}
+              cy={cy}
+              r="3"
+              fill="#fff"
+              filter={`url(#${glow})`}
+            />
+          ))}
+          {NUCLEI.map(([cx, cy]) => (
+            <circle key={`solid-${cx}-${cy}`} cx={cx} cy={cy} r="3" fill="#fff" />
+          ))}
         </g>
-        {ORBIT_ANGLES.map((angle) => (
-          <ellipse
-            key={angle}
-            cx="32"
-            cy="32"
-            rx="19"
-            ry="7.6"
-            fill="none"
-            stroke={`url(#${orbit})`}
-            strokeWidth="3"
-            transform={`rotate(${angle} 32 32)`}
-          />
-        ))}
-        {NUCLEI.map(([cx, cy]) => (
-          <circle
-            key={`${cx}-${cy}`}
-            cx={cx}
-            cy={cy}
-            r="3"
-            fill="#fff"
-            filter={`url(#${glow})`}
-          />
-        ))}
-        {NUCLEI.map(([cx, cy]) => (
-          <circle key={`solid-${cx}-${cy}`} cx={cx} cy={cy} r="3" fill="#fff" />
-        ))}
-        <circle cx="32" cy="32" r="3.4" fill="#fff" filter={`url(#${glow})`} />
-        <circle cx="32" cy="32" r="3.4" fill="#fff" />
+        {/* The core stays put, so the turn reads as the orbits moving around it. */}
+        <circle
+          className="brand-core"
+          cx="32"
+          cy="32"
+          r="3.4"
+          fill="#fff"
+          filter={`url(#${glow})`}
+        />
+        <circle className="brand-core" cx="32" cy="32" r="3.4" fill="#fff" />
       </g>
 
       {/* Rim */}

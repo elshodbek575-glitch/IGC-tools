@@ -197,6 +197,38 @@
   --subject-line: rgba(168, 85, 247, 0.4);
 }
 
+/* ------------------------------------------------------------------ */
+/* Brand mark motion — the atom turns and its core pulses while the mark */
+/* is hovered. Purely decorative, and skipped entirely for anyone who    */
+/* asks for reduced motion.                                             */
+/* ------------------------------------------------------------------ */
+.brand-spin .brand-atom,
+.brand-spin .brand-core {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .brand-spin:hover .brand-atom {
+    animation: brand-orbit 9s linear infinite;
+  }
+  .brand-spin:hover .brand-core {
+    animation: brand-pulse 2.2s ease-in-out infinite;
+  }
+}
+
+@keyframes brand-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes brand-pulse {
+  50% {
+    opacity: 0.6;
+  }
+}
+
 /* Subtle graph-paper texture for hero bands */
 .bg-blueprint {
   background-image: linear-gradient(
