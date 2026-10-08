@@ -208,12 +208,20 @@
   transform-origin: center;
 }
 
+/* The outer bloom lifts on hover, so the badge seems to light up. */
+.brand-spin .brand-halo {
+  transition: opacity 320ms ease;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .brand-spin:hover .brand-atom {
     animation: brand-orbit 9s linear infinite;
   }
   .brand-spin:hover .brand-core {
     animation: brand-pulse 2.2s ease-in-out infinite;
+  }
+  .brand-spin:hover .brand-halo {
+    opacity: 0.85;
   }
 }
 
