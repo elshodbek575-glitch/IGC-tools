@@ -1,6 +1,6 @@
 {
-  "name": "NovaTools · IGCSE STEM Revision Toolkit",
-  "short_name": "NovaTools",
+  "name": "IGCtools · IGCSE STEM Revision Toolkit",
+  "short_name": "IGCtools",
   "description": "Free IGCSE revision tools for Mathematics, Physics, Chemistry, Biology and Computer Science.",
   "start_url": "/",
   "display": "standalone",
@@ -8,7 +8,7 @@
   "theme_color": "#101426",
   "icons": [
     {
-      "src": "/logo.svg",
+      "src": "/logo.svg?v=2",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
