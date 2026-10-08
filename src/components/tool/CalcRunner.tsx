@@ -6,6 +6,13 @@ import { ToolPanels } from "@/components/tool/ToolPanels";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useI18n } from "@/lib/i18n";
 import { hasDefaults } from "@/lib/tools/helpers";
 import type {
@@ -25,9 +32,9 @@ function normalise(text: string) {
 }
 
 /**
- * Turn whatever the student typed into one of the field's accepted values.
- * Matching gets looser in stages so "mult" finds "Multiply…" while an exact
- * value typed in full always wins.
+ * Resolve a stored field value to the option it refers to. Definitions may name
+ * either the option's machine value or its readable label in `defaultValue`, so
+ * both are accepted before the match gets loose.
  */
 function matchOption(
   options: FieldOption[],
@@ -37,68 +44,53 @@ function matchOption(
   if (!q) return undefined;
   return (
     options.find((option) => normalise(option.value) === q) ??
-    options.find((option) => normalise(option.label) === q) ??
-    options.find((option) => normalise(option.value.replace(/[-_]/g, " ")) === q) ??
-    options.find((option) => normalise(option.label).startsWith(q)) ??
-    options.find((option) => normalise(option.value).startsWith(q)) ??
-    options.find((option) => normalise(option.label).includes(q)) ??
-    options.find((option) => normalise(option.value).includes(q))
+    options.find((option) => normalise(option.label) === q)
   );
 }
 
-/** Short options are offered as one-tap chips; anything wordy is typed. */
-function optionsAsChips(field: Field): FieldOption[] | null {
+/**
+ * A `select` field with options is a real dropdown — a closed set of choices is
+ * picked, never typed. Everything else (numbers, and wordy text like a formula
+ * or a data list) stays a typed input.
+ */
+function choices(field: Field): FieldOption[] | null {
   const options = field.options ?? [];
-  if (options.length === 0 || options.length > 8) return null;
-  const short = options.every((option) => option.label.length <= 18);
-  return short ? options : null;
+  return field.type === "select" && options.length > 0 ? options : null;
 }
 
 export function CalcRunner({ def }: { def: CalcTool }) {
   const { t } = useI18n();
 
+  /** Stored values. For a select field this is always an option's `value`. */
   const initial = useMemo(() => {
     const values: Values = {};
-    for (const field of def.fields) values[field.id] = field.defaultValue ?? "";
+    for (const field of def.fields) {
+      const fallback = field.defaultValue ?? "";
+      const options = choices(field);
+      values[field.id] = options
+        ? (matchOption(options, fallback)?.value ?? "")
+        : fallback;
+    }
     return values;
   }, [def]);
 
-  /** What the student actually sees in each choice box (the readable label). */
-  const initialDisplay = useMemo(() => {
-    const display: Values = {};
-    for (const field of def.fields) {
-      const value = initial[field.id] ?? "";
-      const match = field.options ? matchOption(field.options, value) : undefined;
-      display[field.id] = match ? match.label : value;
-    }
-    return display;
-  }, [def, initial]);
-
   const [values, setValues] = useState<Values>(initial);
-  const [display, setDisplay] = useState<Values>(initialDisplay);
   const [outcome, setOutcome] = useState<SolveOutcome | null>(() =>
     hasDefaults(initial) ? def.solve(initial) : null,
   );
 
   /**
-   * Every keystroke recalculates, the way a calculator behaves. The Solve
-   * button stays for muscle memory, but it is never required.
+   * Every change recalculates, the way a calculator behaves. The Solve button
+   * stays for muscle memory, but it is never required.
    */
-  const apply = (field: Field, stored: string, shown: string) => {
-    setDisplay((previous) => ({ ...previous, [field.id]: shown }));
-    const next = { ...values, [field.id]: stored };
+  const apply = (id: string, stored: string) => {
+    const next = { ...values, [id]: stored };
     setValues(next);
     setOutcome(def.solve(next));
   };
 
-  const setField = (field: Field, typed: string) => {
-    const match = field.options ? matchOption(field.options, typed) : undefined;
-    apply(field, match ? match.value : typed, typed);
-  };
-
   const reset = () => {
     setValues(initial);
-    setDisplay(initialDisplay);
     setOutcome(hasDefaults(initial) ? def.solve(initial) : null);
   };
 
@@ -121,8 +113,7 @@ export function CalcRunner({ def }: { def: CalcTool }) {
           <div className="grid gap-6 sm:grid-cols-2">
             {def.fields.map((field) => {
               const id = fieldInputId(def.name, field.id);
-              const options = field.options ?? [];
-              const chips = optionsAsChips(field);
+              const options = choices(field);
 
               return (
                 <div key={field.id} className="flex flex-col">
@@ -135,51 +126,39 @@ export function CalcRunner({ def }: { def: CalcTool }) {
                     )}
                   </Label>
 
-                  <Input
-                    id={id}
-                    className="mt-2"
-                    autoComplete="off"
-                    list={options.length > 0 ? `${id}-list` : undefined}
-                    inputMode={field.type === "number" ? "decimal" : undefined}
-                    value={display[field.id] ?? ""}
-                    placeholder={
-                      field.placeholder ??
-                      (options.length > 0 ? options[0].label : undefined)
-                    }
-                    onChange={(event) => setField(field, event.target.value)}
-                  />
-
-                  {options.length > 0 && (
-                    <datalist id={`${id}-list`}>
-                      {options.map((option) => (
-                        <option key={option.value} value={option.label} />
-                      ))}
-                    </datalist>
+                  {options ? (
+                    <Select
+                      value={values[field.id] || undefined}
+                      onValueChange={(next) => apply(field.id, next)}
+                    >
+                      <SelectTrigger id={id} className="mt-2 w-full">
+                        <SelectValue placeholder={t("calc.chooseOption")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {options.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <Input
+                      id={id}
+                      className="mt-2"
+                      autoComplete="off"
+                      inputMode={field.type === "number" ? "decimal" : undefined}
+                      value={values[field.id] ?? ""}
+                      placeholder={field.placeholder}
+                      onChange={(event) => apply(field.id, event.target.value)}
+                    />
                   )}
 
-                  {chips && (
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {chips.map((option) => (
-                        <button
-                          key={option.value}
-                          type="button"
-                          onClick={() =>
-                            apply(field, option.value, option.label)
-                          }
-                          className="rounded-full border border-border px-3 py-1 text-label text-muted-foreground transition-colors duration-150 hover:border-foreground/30 hover:text-foreground"
-                        >
-                          {option.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-
-                  <p className="text-label mt-2 text-muted-foreground">
-                    {field.hint ??
-                      (options.length > 0
-                        ? "Type it in — suggestions appear as you type."
-                        : "")}
-                  </p>
+                  {field.hint ? (
+                    <p className="text-label mt-2 text-muted-foreground">
+                      {field.hint}
+                    </p>
+                  ) : null}
                 </div>
               );
             })}

@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
 import { useI18n } from "@/lib/i18n";
 import { SUBJECTS } from "@/lib/subjects";
+import { buildStatus, subjectToolCounts } from "@/lib/tools";
 import { cn } from "@/lib/utils";
 
 export default function Dashboard() {
@@ -67,6 +68,7 @@ export default function Dashboard() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {SUBJECTS.map((subject, index) => {
             const Icon = subject.icon;
+            const status = buildStatus(subjectToolCounts(subject));
             return (
               <motion.div
                 key={subject.id}
@@ -90,9 +92,11 @@ export default function Dashboard() {
                       </p>
                       <span className="flex items-center gap-2 border-t border-border pt-4 text-sm font-medium">
                         <span style={{ color: subject.accent }}>
-                          {subject.status === "in-progress"
-                            ? t("common.buildingNow")
-                            : t("common.planned")}
+                          {status === "live"
+                            ? t("common.live")
+                            : status === "building"
+                              ? t("common.buildingNow")
+                              : t("common.planned")}
                         </span>
                         <ArrowRight className="size-4 text-muted-foreground transition-transform duration-150 group-hover:translate-x-1" />
                       </span>

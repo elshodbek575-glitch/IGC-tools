@@ -20,6 +20,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useI18n } from "@/lib/i18n";
 import { ALL_TOOLS, SUBJECTS } from "@/lib/subjects";
+import { buildStatus, isToolLive, subjectToolCounts } from "@/lib/tools";
 import { cn } from "@/lib/utils";
 
 // Hover/focus transitions stay at 150–200ms; entrances use framer-motion.
@@ -124,6 +125,12 @@ function ShellPreview() {
 
 export default function Home() {
   const { t, tOr, subjectName } = useI18n();
+  // Every tool in the catalogue is implemented, so this is the count that the
+  // catalogue actually delivers rather than a promise of work to come.
+  const liveToolCount = ALL_TOOLS.filter((ref) =>
+    isToolLive(ref.subject.id, ref.slug),
+  ).length;
+
   return (
     <div className="flex min-h-dvh flex-col">
       <Seo
@@ -172,10 +179,10 @@ export default function Home() {
               <dl className="mt-8 flex flex-wrap gap-8">
                 <div>
                   <dt className="text-label text-muted-foreground">
-                    {t("home.statTools")}
+                    {t("subject.tools")}
                   </dt>
                   <dd className="mt-2 font-mono text-2xl font-semibold">
-                    {ALL_TOOLS.length}
+                    {liveToolCount}
                   </dd>
                 </div>
                 <div>
@@ -387,6 +394,7 @@ export default function Home() {
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {SUBJECTS.map((subject, index) => {
               const Icon = subject.icon;
+              const status = buildStatus(subjectToolCounts(subject));
               return (
                 <motion.div
                   key={subject.id}
@@ -406,7 +414,7 @@ export default function Home() {
                     <span
                       className={cn(
                         "size-2 rounded-full",
-                        subject.status === "in-progress" && "animate-pulse",
+                        status === "building" && "animate-pulse",
                       )}
                       style={{ backgroundColor: subject.accent }}
                     />
@@ -419,9 +427,11 @@ export default function Home() {
                     {subjectName(subject.id, subject.name)}
                   </p>
                   <p className="mt-2 text-label text-muted-foreground">
-                    {subject.status === "in-progress"
-                      ? t("common.buildingNow")
-                      : t("common.planned")}
+                    {status === "live"
+                      ? t("common.live")
+                      : status === "building"
+                        ? t("common.buildingNow")
+                        : t("common.planned")}
                   </p>
                 </motion.div>
               );

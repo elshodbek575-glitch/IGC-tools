@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Clock, Hourglass } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Clock, Hourglass } from "lucide-react";
 
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/accordion";
 import { useI18n } from "@/lib/i18n";
 import { getSubject, slugify, SUBJECTS } from "@/lib/subjects";
+import { buildStatus, isToolLive, subjectToolCounts } from "@/lib/tools";
 import { cn } from "@/lib/utils";
 
 const HOVER = "transition-colors duration-150";
@@ -45,7 +46,9 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
   }
 
   const Icon = subject.icon;
-  const isBuilding = subject.status === "in-progress";
+  // Read the real build state out of the tool registry.
+  const status = buildStatus(subjectToolCounts(subject));
+  const allLive = status === "live";
   const tagline = tOr(`subject.${subject.id}.tagline`, subject.tagline);
   const blurb = tOr(`subject.${subject.id}.blurb`, subject.blurb);
 
@@ -84,7 +87,12 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
               <div className="flex flex-wrap items-center gap-4">
                 <Icon className="size-6" style={{ color: subject.accent }} />
                 <Badge variant="outline" className="gap-2 text-muted-foreground">
-                  {isBuilding ? (
+                  {allLive ? (
+                    <>
+                      <CheckCircle2 className="size-3" />
+                      {t("common.live")}
+                    </>
+                  ) : status === "building" ? (
                     <>
                       <Clock className="size-3" />
                       {t("common.buildingNow")}
@@ -162,9 +170,13 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
                       </dd>
                     </div>
                   </dl>
-                  <p className="mt-6 text-sm text-muted-foreground">
-                    {t("subject.glanceNote")}
-                  </p>
+                  {/* Only promise "live shells while the tools are built"
+                      while something in the section is still being built. */}
+                  {!allLive ? (
+                    <p className="mt-6 text-sm text-muted-foreground">
+                      {t("subject.glanceNote")}
+                    </p>
+                  ) : null}
                 </CardContent>
               </Card>
             </motion.div>
@@ -258,11 +270,13 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
             <h2 className="text-3xl font-bold tracking-tight">
               {t("subject.toolsMappedTitle", { count: subject.tools.length })}
             </h2>
-            <p className="mt-4 text-base text-muted-foreground">
-              {isBuilding
-                ? t("subject.toolsBuildingBody")
-                : t("subject.toolsQueuedBody")}
-            </p>
+            {!allLive ? (
+              <p className="mt-4 text-base text-muted-foreground">
+                {status === "building"
+                  ? t("subject.toolsBuildingBody")
+                  : t("subject.toolsQueuedBody")}
+              </p>
+            ) : null}
           </motion.div>
 
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -293,7 +307,9 @@ export default function SubjectPage({ subjectId }: { subjectId: string }) {
                           variant="outline"
                           className="text-label text-muted-foreground"
                         >
-                          {t("common.inDevelopment")}
+                          {isToolLive(subject.id, slug)
+                            ? t("common.live")
+                            : t("common.inDevelopment")}
                         </Badge>
                       </div>
                       <h3 className="text-xl font-semibold tracking-tight">

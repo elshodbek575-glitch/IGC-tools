@@ -12,9 +12,9 @@ import { Atom, Cpu, Dna, FlaskConical, Sigma, type LucideIcon } from "lucide-rea
  * freely — they list every topic and required skill). No textbook content is
  * reproduced.
  *
- * `tools` are the planned tool set for each subject. In this first version they
- * are rendered as non-interactive "planned" shells; the actual tool logic is
- * built subject by subject after the topic/tool lists are signed off.
+ * `tools` are the tool set for each subject. Which of them are implemented is
+ * read from the tool registry (`src/lib/tools`) rather than declared here, so
+ * the status badges can never drift away from what a tool page actually does.
  */
 
 export type SyllabusTopic = {
@@ -40,8 +40,6 @@ export type Subject = {
   tagline: string;
   blurb: string;
   boards: string[];
-  /** Model for current tool build order */
-  status: "in-progress" | "planned";
   topics: SyllabusTopic[];
   tools: PlannedTool[];
 };
@@ -59,7 +57,6 @@ export const SUBJECTS: Subject[] = [
     blurb:
       "From surds and simultaneous equations to circle theorems and statistics — every solver shows each step, not just the final answer.",
     boards: ["Cambridge IGCSE 0580", "Edexcel IGCSE 4MA1"],
-    status: "in-progress",
     topics: [
       {
         title: "Number",
@@ -149,7 +146,6 @@ export const SUBJECTS: Subject[] = [
     blurb:
       "Every calculator shows the equation, the substitution and the unit reasoning, so you learn the method as well as the answer.",
     boards: ["Cambridge IGCSE 0625", "Edexcel IGCSE 4PH1"],
-    status: "planned",
     topics: [
       {
         title: "Motion, forces and energy",
@@ -235,7 +231,6 @@ export const SUBJECTS: Subject[] = [
     blurb:
       "Get the ratio, the moles and the units right every time with tools that show the reasoning at each stage.",
     boards: ["Cambridge IGCSE 0620", "Edexcel IGCSE 4CH1"],
-    status: "planned",
     topics: [
       {
         title: "States of matter and particles",
@@ -327,7 +322,6 @@ export const SUBJECTS: Subject[] = [
     blurb:
       "Interactive original diagrams, genetics tools and topic glossaries that make the reasoning visible.",
     boards: ["Cambridge IGCSE 0610", "Edexcel IGCSE 4BI1"],
-    status: "planned",
     topics: [
       {
         title: "Nature and variety of living organisms",
@@ -413,7 +407,6 @@ export const SUBJECTS: Subject[] = [
     blurb:
       "Convert, simulate and trace: every tool walks through the steps of the algorithm rather than hiding them.",
     boards: ["Cambridge IGCSE 0478", "Edexcel IGCSE 4CP0"],
-    status: "planned",
     topics: [
       {
         title: "Data representation",

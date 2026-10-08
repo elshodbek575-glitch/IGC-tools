@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { useI18n } from "@/lib/i18n";
 import type { Subject, ToolRef } from "@/lib/subjects";
+import { isToolLive } from "@/lib/tools";
 import { cn } from "@/lib/utils";
 
 export type ToolShellProps = {
@@ -35,6 +36,9 @@ export function ToolShell({
   const { tool, slug } = toolRef;
   const { t, tOr, subjectName } = useI18n();
   const Icon = subject.icon;
+  // Status comes from the tool registry, not from whether children happened to
+  // be passed — an array of `false` children is still truthy.
+  const live = isToolLive(subject.id, slug);
   // Tool catalogue copy is translated when a locale provides it, otherwise the
   // English source in `subjects.ts` is used as-is.
   const toolName = tOr(`tool.${subject.id}.${slug}.name`, tool.name);
@@ -76,7 +80,7 @@ export function ToolShell({
               {toolName}
             </h1>
             <Badge variant="outline" className="text-muted-foreground">
-              {children ? t("common.live") : t("common.inDevelopment")}
+              {live ? t("common.live") : t("common.inDevelopment")}
             </Badge>
           </div>
           <p className="mt-4 max-w-2xl text-base text-muted-foreground">
